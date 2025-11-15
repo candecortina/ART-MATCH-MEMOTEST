@@ -217,11 +217,11 @@ body {
 /* --- CENTRAR SOLO EL MEMOTEST --- */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  grid-gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-gap: 18px;
 
-  width: fit-content;         /* el grid ocupa solo lo necesario */
-  margin: 20px auto 0 auto;   /* centrado horizontal sin mover nada más */
+  width: fit-content;
+  margin: 20px auto 0 auto;
 
   justify-content: center;
   align-items: center;
