@@ -24,7 +24,7 @@ const images = [
 let firstCard = null;
 let lockBoard = false;
 let matchedPairs = 0;
-let timeLeft = 40 * 60;
+let timeLeft = 40;  // <--- 40 segundos
 let timerInterval;
 
 function startGame(){
@@ -33,7 +33,7 @@ function startGame(){
 
   matchedPairs = 0;
   firstCard = null;
-  timeLeft = 40 * 60;
+  timeLeft = 40; // <--- 40 segundos reales
   startTimer();
 
   const board = document.getElementById("game-board");
@@ -60,15 +60,16 @@ function startGame(){
 function startTimer(){
   const timer = document.getElementById("timer");
   clearInterval(timerInterval);
+
   timerInterval = setInterval(()=>{
-    const min = Math.floor(timeLeft / 60);
-    const sec = (timeLeft % 60).toString().padStart(2,"0");
-    timer.textContent = `Tiempo: ${min}:${sec}`;
+
+    timer.textContent = `Tiempo: ${timeLeft}s`;  // <--- Muestra solo segundos
 
     if(timeLeft <= 0){
       clearInterval(timerInterval);
       loseGame();
     }
+
     timeLeft--;
   },1000);
 }
