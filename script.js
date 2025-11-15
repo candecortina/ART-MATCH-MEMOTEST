@@ -60,7 +60,7 @@ function startTimer(){
   const timer = document.getElementById("timer");
   clearInterval(timerInterval);
   timerInterval = setInterval(()=>{
-    const min = Math.floor(timeLeft / 60);
+    const min = Math.floor(timeLeft / 40);
     const sec = (timeLeft % 60).toString().padStart(2,"0");
     timer.textContent = `Tiempo: ${min}:${sec}`;
 
