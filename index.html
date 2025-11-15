@@ -1,98 +1,70 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Art Match — Memotest</title>
-
-  <!-- Tipografías -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
-
-  <!-- estilos -->
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Art Match</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- PANTALLA DE BIENVENIDA -->
-  <div id="welcome" class="screen visible">
-    <div class="welcome-inner">
-      <h1 class="welcome-title">Art Match</h1>
-      <p class="welcome-sub">Memotest · Obras famosas</p>
-      <button id="toInstructions" class="btn primary large">Comenzar</button>
-    </div>
-  </div>
 
-  <!-- PANTALLA DE INSTRUCCIONES -->
-  <div id="instructions" class="screen">
-    <div class="instructions-inner panel">
-      <h2>Instrucciones</h2>
-      <div class="instructions-box">
-        <p>Antes de jugar todas las fichas estarán con el dorso <strong>Art Match</strong>. Tocá una ficha para descubrirla; tocá otra para comparar. Si las dos coinciden, se quedan dadas vuelta. Si no, se ocultarán automáticamente después de un instante. Tenés <strong>40 minutos</strong> para encontrar todas las parejas.</p>
-        <ul>
-          <li>Tocá cada ficha para voltearla.</li>
-          <li>Si coincide, las dos quedan visibles.</li>
-          <li>Si no coincide, se ocultan (auto-ocultado 800 ms).</li>
-        </ul>
-      </div>
+    <!-- PANTALLA DE INICIO -->
+    <section id="inicio" class="pantalla">
+        <h1 class="titulo-inicio">ART MATCH</h1>
 
-      <div class="start-row">
-        <button id="startGame" class="btn primary">Jugar</button>
-      </div>
-    </div>
-  </div>
+        <div class="instrucciones-inicio">
+            <h2>Instrucciones de Juego</h2>
+            <p>
+                Encontrá las parejas de obras maestras.  
+                Tenés 45 segundos para completar el desafío.  
+                Si las fichas no coinciden, se dan vuelta nuevamente.  
+                ¡Buena suerte!
+            </p>
+        </div>
 
-  <!-- PANTALLA DE JUEGO -->
-  <div id="game" class="screen">
-    <header class="game-header">
-      <div class="brand">
-        <div class="brand-title">Art Match — Memotest</div>
-        <div class="brand-sub">Encuentra las parejas</div>
-      </div>
-
-      <div class="game-controls">
-        <div id="timer" class="timer">40:00</div>
-        <button id="restart" class="btn ghost">Reiniciar</button>
-      </div>
-    </header>
-
-    <section class="board-wrap panel">
-      <div id="board" class="board" role="grid" aria-label="Tablero de juego"></div>
+        <button id="btnComenzar" class="btn">Comenzar</button>
     </section>
-  </div>
 
-  <!-- PANTALLA DE VICTORIA (modal) -->
-  <div id="winModal" class="modal-overlay" style="display:none;">
-    <div class="modal panel">
-      <h3>¡Felicitaciones! Has ganado</h3>
-      <p>Completaste todas las parejas. Mirá la galería con la historia de cada obra.</p>
-      <div class="modal-actions">
-        <button id="showGallery" class="btn primary">Ver galería</button>
-        <button id="closeWin" class="btn ghost">Cerrar</button>
-      </div>
+    <!-- PANTALLA DEL JUEGO -->
+    <section id="juego" class="pantalla hidden">
+        <h2 id="tiempo">Tiempo: 45</h2>
+        <div id="tablero" class="game-board"></div>
+    </section>
+
+    <!-- MENSAJE GANAR -->
+    <div id="mensajeGanar" class="modal hidden">
+        <div class="modal-content">
+            <h2>¡Felicidades!</h2>
+            <p>Completaste todas las obras a tiempo.</p>
+            <button id="irGaleria" class="btn">Ver Galería</button>
+        </div>
     </div>
-  </div>
 
-  <!-- PANTALLA DE DERROTA (modal) -->
-  <div id="loseModal" class="modal-overlay" style="display:none;">
-    <div class="modal panel">
-      <h3>Se acabó el tiempo</h3>
-      <p>No alcanzaste a completar todas las parejas. Podés intentarlo de nuevo.</p>
-      <div class="modal-actions">
-        <button id="tryAgain" class="btn primary">Reiniciar</button>
-      </div>
+    <!-- MENSAJE PERDER -->
+    <div id="mensajePerder" class="modal hidden">
+        <div class="modal-content">
+            <h2>¡Tiempo agotado!</h2>
+            <p>No pudiste completar el desafío.</p>
+            <button id="irGaleria2" class="btn">Ver Galería</button>
+        </div>
     </div>
-  </div>
 
-  <!-- GALERÍA FINAL -->
-  <div id="gallery" class="screen">
-    <div class="panel gallery-panel">
-      <h2>Galería final</h2>
-      <div id="galleryGrid" class="gallery-grid"></div>
-      <div class="center">
-        <button id="backToGame" class="btn ghost">Volver al juego</button>
-      </div>
+    <!-- GALERÍA FINAL -->
+    <section id="galeria" class="pantalla hidden">
+        <h1 class="titulo-galeria">Galería de Obras</h1>
+        <div id="contenedorGaleria" class="galeria-grid"></div>
+    </section>
+
+    <!-- VISTA PREVIA -->
+    <div id="preview" class="preview hidden">
+        <div class="preview-content">
+            <img id="previewImg">
+            <h3 id="previewTitulo"></h3>
+            <p id="previewDesc"></p>
+            <button id="cerrarPreview" class="btn">Cerrar</button>
+        </div>
     </div>
-  </div>
 
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
