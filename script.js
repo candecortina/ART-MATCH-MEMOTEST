@@ -12,7 +12,7 @@ document.getElementById("start-btn").onclick = () => {
 document.getElementById("play-btn").onclick = startGame;
 document.getElementById("gallery-btn").onclick = showGallery;
 
-// Fichas del memotest
+// Imágenes exactas
 const images = [
   "monalisa.jpg","monalisa.jpg",
   "lanochestrellada.jpg","lanochestrellada.jpg",
@@ -24,7 +24,7 @@ const images = [
 let firstCard = null;
 let lockBoard = false;
 let matchedPairs = 0;
-let timeLeft = 40 * 60; // 40 minutos
+let timeLeft = 40*60;
 let timerInterval;
 
 function startGame() {
@@ -33,37 +33,33 @@ function startGame() {
 
   matchedPairs = 0;
   firstCard = null;
-  timeLeft = 40 * 60;
+  timeLeft = 40*60;
 
   startTimer();
 
   const board = document.getElementById("game-board");
   board.innerHTML = "";
 
-  const shuffled = images.sort(() => Math.random() - 0.5);
+  const shuffled = images.sort(()=>Math.random()-0.5);
 
-  shuffled.forEach(src => {
+  shuffled.forEach(src=>{
     const card = document.createElement("div");
     card.classList.add("card");
-
-    // Estructura de la ficha
     card.innerHTML = `
       <div class="card-face card-back">ART MATCH</div>
       <div class="card-face card-front"><img src="img/${src}"></div>
     `;
-
-    card.addEventListener("click", () => flipCard(card, src));
+    card.addEventListener("click", ()=>flipCard(card, src));
     board.appendChild(card);
   });
 }
 
-function startTimer() {
+function startTimer(){
   const timer = document.getElementById("timer");
   clearInterval(timerInterval);
-
-  timerInterval = setInterval(() => {
+  timerInterval = setInterval(()=>{
     const min = Math.floor(timeLeft/60);
-    const sec = timeLeft % 60;
+    const sec = timeLeft%60;
     timer.textContent = `Tiempo: ${min}:${sec.toString().padStart(2,"0")}`;
     if(timeLeft<=0){
       clearInterval(timerInterval);
@@ -75,7 +71,6 @@ function startTimer() {
 
 function flipCard(card, src){
   if(lockBoard || card.classList.contains("flip") || card.classList.contains("matched")) return;
-
   card.classList.add("flip");
 
   if(!firstCard){
@@ -84,7 +79,6 @@ function flipCard(card, src){
   }
 
   if(firstCard.src === src){
-    // Coinciden → quedan descubiertas
     firstCard.card.classList.add("matched");
     card.classList.add("matched");
     firstCard = null;
@@ -97,7 +91,6 @@ function flipCard(card, src){
       },500);
     }
   } else {
-    // No coinciden → vuelven al dorso
     lockBoard = true;
     setTimeout(()=>{
       firstCard.card.classList.remove("flip");
