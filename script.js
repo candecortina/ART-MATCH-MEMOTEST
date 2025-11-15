@@ -22,14 +22,14 @@ const works = [
         name: "El Grito",
         artist: "Edvard Munch",
         year: "1893",
-        img: "img/elgrito.jpg",
+        img: "img/scream.jpg",
         description: "Representa la angustia humana en un paisaje expresionista."
     },
     {
         name: "La Noche Estrellada",
         artist: "Vincent van Gogh",
         year: "1889",
-        img: "img/nochestrellada.jpg",
+        img: "img/lanochestrellada.jpg",
         description: "Una vista nocturna desde la habitación del artista en Saint-Rémy."
     },
     {
