@@ -24,7 +24,8 @@ const images = [
 let firstCard = null;
 let lockBoard = false;
 let matchedPairs = 0;
-let timeLeft = 40; // 40 segundos
+let pairsFound = 0;
+let timeLeft = 40;
 let timerInterval;
 
 function startGame(){
@@ -32,9 +33,12 @@ function startGame(){
   gameScreen.classList.add("active");
 
   matchedPairs = 0;
+  pairsFound = 0;
   firstCard = null;
   timeLeft = 40;
   startTimer();
+
+  document.getElementById("pairs-counter").textContent = `Pares encontrados: ${pairsFound}`;
 
   const board = document.getElementById("game-board");
   board.innerHTML = "";
@@ -44,13 +48,16 @@ function startGame(){
   shuffled.forEach(src=>{
     const card = document.createElement("div");
     card.classList.add("card");
+    card.dataset.src = src;
+
     card.innerHTML = `
       <div class="card-inner">
         <div class="card-face card-back">ART MATCH</div>
         <div class="card-face card-front"><img src="img/${src}"></div>
       </div>
     `;
-    card.addEventListener("click", ()=>flipCard(card, src));
+
+    card.addEventListener("click", () => flipCard(card));
     board.appendChild(card);
   });
 }
@@ -66,20 +73,24 @@ function startTimer(){
   },1000);
 }
 
-function flipCard(card, src){
+function flipCard(card){
   if(lockBoard || card.classList.contains("flip") || card.classList.contains("matched")) return;
+
   card.classList.add("flip");
 
   if(!firstCard){
-    firstCard = {card, src};
+    firstCard = card;
     return;
   }
 
-  if(firstCard.src === src){
-    firstCard.card.classList.add("matched");
+  if(firstCard.dataset.src === card.dataset.src){
+    firstCard.classList.add("matched");
     card.classList.add("matched");
     firstCard = null;
     matchedPairs++;
+    pairsFound++;
+    document.getElementById("pairs-counter").textContent = `Pares encontrados: ${pairsFound}`;
+
     if(matchedPairs === images.length/2){
       clearInterval(timerInterval);
       setTimeout(()=>{
@@ -96,7 +107,7 @@ function flipCard(card, src){
   } else {
     lockBoard = true;
     setTimeout(()=>{
-      firstCard.card.classList.remove("flip");
+      firstCard.classList.remove("flip");
       card.classList.remove("flip");
       firstCard = null;
       lockBoard = false;

@@ -115,8 +115,9 @@ body {
 }
 
 .card-back {
-    border: 3px solid #8d6f54;
     background: none;
+    border: 3px solid #8d6f54;
+    color: #3b2d22;
 }
 
 .card-front img {
@@ -125,6 +126,12 @@ body {
     object-fit: cover;
     border-radius: 12px;
     transform: rotateY(180deg);
+}
+
+#pairs-counter {
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: bold;
 }
 
 .win-msg {
