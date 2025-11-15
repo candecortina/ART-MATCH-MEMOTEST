@@ -12,6 +12,7 @@ document.getElementById("start-btn").onclick = () => {
 document.getElementById("play-btn").onclick = startGame;
 document.getElementById("gallery-btn").onclick = showGallery;
 
+// Imágenes exactas
 const images = [
   "monalisa.jpg","monalisa.jpg",
   "lanochestrellada.jpg","lanochestrellada.jpg",
@@ -49,7 +50,8 @@ function startGame(){
         <div class="card-face card-front"><img src="img/${src}"></div>
       </div>
     `;
-    card.addEventListener("click", ()=>flipCard(card, src));
+    const inner = card.querySelector(".card-inner");
+    card.addEventListener("click", () => flipCard(card, inner, src));
     board.appendChild(card);
   });
 }
@@ -69,16 +71,18 @@ function startTimer(){
   },1000);
 }
 
-function flipCard(card, src){
-  const inner = card.querySelector(".card-inner");
+function flipCard(card, inner, src){
   if(lockBoard || inner.classList.contains("flip") || card.classList.contains("matched")) return;
+
+  // Gira la ficha
   inner.classList.add("flip");
 
   if(!firstCard){
-    firstCard = {card, src};
+    firstCard = {card, inner, src};
     return;
   }
 
+  // Coincidencia
   if(firstCard.src === src){
     firstCard.card.classList.add("matched");
     card.classList.add("matched");
@@ -92,9 +96,10 @@ function flipCard(card, src){
       },500);
     }
   } else {
+    // No coincide, vuelve al dorso
     lockBoard = true;
     setTimeout(()=>{
-      firstCard.card.querySelector(".card-inner").classList.remove("flip");
+      firstCard.inner.classList.remove("flip");
       inner.classList.remove("flip");
       firstCard = null;
       lockBoard = false;
