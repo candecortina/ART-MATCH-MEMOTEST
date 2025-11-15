@@ -17,7 +17,8 @@ const images = [
   "lanochestrellada.jpg","lanochestrellada.jpg",
   "scream.jpg","scream.jpg",
   "laperla.jpg","laperla.jpg",
-  "persistencia_memoria.jpg","persistencia_memoria.jpg"
+  "persistencia_memoria.jpg","persistencia_memoria.jpg",
+  "venus.jpg","venus.jpg"
 ];
 
 let firstCard = null;
