@@ -1,72 +1,56 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Art Match</title>
-<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Art Match</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<!-- PANTALLA DE INICIO -->
-<div id="welcome-screen" class="screen active">
-    <h1 class="title">ART MATCH</h1>
-    <h2 class="subtitle">Memotest</h2>
-    <button id="start-btn" class="btn">Comenzar</button>
-</div>
-
-<!-- INSTRUCCIONES -->
-<div id="instructions-screen" class="screen">
-    <div class="instructions-box">
-        <h2>Instrucciones</h2>
-        <p>- Da vuelta las fichas para encontrar pares iguales.</p>
-        <p>- Si coinciden, quedan descubiertas.</p>
-        <p>- Si no coinciden, se dan vuelta de nuevo.</p>
-        <p>- Cuando encuentres todos los pares, accederás a la galería de obras.</p>
+    <!-- Pantalla de Bienvenida -->
+    <div id="welcome-screen" class="screen active">
+        <h1 class="title">ART MATCH</h1>
+        <h2 class="subtitle">Memotest</h2>
+        <button id="start-btn" class="btn">Comenzar</button>
     </div>
-    <button id="play-btn" class="btn">Jugar</button>
-</div>
 
-<!-- MEMOTEST -->
-<div id="game-screen" class="screen">
-    <div class="timer" id="timer">Tiempo: 0:40</div>
-    <p id="pairs-count">Pares encontrados: 0/6</p>
-    <div id="game-board" class="grid"></div>
-</div>
-
-<!-- GANASTE -->
-<div id="win-screen" class="screen">
-    <div class="message-box">
-        <h2 class="win-msg">¡Felicitaciones! 🎉</h2>
-        <p>Completaste el Art Match.</p>
-        <button id="gallery-btn" class="btn">Ver Galería</button>
+    <!-- Pantalla de Instrucciones -->
+    <div id="instructions-screen" class="screen">
+        <div class="instructions-box">
+            <h2>Instrucciones</h2>
+            <p>- Da vuelta las fichas para encontrar pares iguales.</p>
+            <p>- Si coinciden, quedan descubiertas.</p>
+            <p>- Si no coinciden, se dan vuelta de nuevo.</p>
+            <p>- Cuando encuentres todos los pares, accederás a la galería de obras.</p>
+        </div>
+        <button id="play-btn" class="btn">Jugar</button>
     </div>
-</div>
 
-<!-- PERDISTE -->
-<div id="lose-screen" class="screen">
-    <div class="message-box">
-        <h2 class="win-msg">¡Se acabó el tiempo! ⏳</h2>
-        <p>No lograste completar el memotest.</p>
-        <button id="retry-btn" class="btn">Intentar de nuevo</button>
+    <!-- Pantalla del Juego -->
+    <div id="game-screen" class="screen">
+        <div id="timer" class="timer"></div>
+        <div id="game-board" class="grid"></div>
     </div>
-</div>
 
-<!-- GALERÍA -->
-<div id="gallery-screen" class="screen">
-    <h2>Galería de Obras</h2>
+    <!-- Pantalla final (ganar/perder) -->
+    <div id="win-screen" class="screen"></div>
 
-    <div class="gallery-container">
-        <button id="prev-btn" class="arrow">◀</button>
-
+    <!-- Pantalla Galería -->
+    <div id="gallery-screen" class="screen">
+        <h2>Galería de Obras</h2>
         <div id="gallery" class="gallery"></div>
-
-        <button id="next-btn" class="arrow">▶</button>
     </div>
 
-    <button id="restart-btn" class="btn">Volver a jugar</button>
-</div>
+    <!-- Modal para ampliar imagen -->
+    <div id="modal">
+      <div id="modal-content">
+        <span id="modal-close">&times;</span>
+        <img id="modal-img" src="">
+        <p id="modal-info"></p>
+      </div>
+    </div>
 
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
