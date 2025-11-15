@@ -1,76 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400;600&display=swap');
+
 body {
     margin: 0;
-    font-family: 'Georgia', serif;
-    background: #fdf8f2;
-    color: #5a4634;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f8f1e6;
+    color: #4b3a2f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.screen {
+    display: none;
     text-align: center;
-  }
-  
-  .start-screen {
-    margin-top: 100px;
-  }
-  
-  h1 {
+    padding: 20px;
+}
+
+.screen.active {
+    display: block;
+}
+
+.title {
+    font-family: 'Playfair Display', serif;
     font-size: 60px;
-    margin-bottom: 30px;
-  }
-  
-  .btn {
-    padding: 15px 40px;
-    background: #8c6b49;
+    color: #3b2d22;
+    margin-bottom: 0;
+}
+
+.subtitle {
+    font-size: 28px;
+    margin-top: 5px;
+    opacity: 0.7;
+}
+
+.btn {
+    padding: 14px 28px;
+    font-size: 18px;
+    background-color: #8d6f54;
     color: white;
     border: none;
-    font-size: 22px;
-    cursor: pointer;
     border-radius: 10px;
-  }
-  
-  #timer {
+    cursor: pointer;
+    margin-top: 20px;
+    transition: 0.2s;
+}
+
+.btn:hover {
+    background-color: #7b6047;
+}
+
+.instructions-box {
+    background: #fff;
+    padding: 25px;
+    border-radius: 16px;
+    width: 80%;
+    margin: auto;
+    box-shadow: 0 0 10px #00000020;
+    font-size: 18px;
+}
+
+/* TIMER */
+.timer {
     font-size: 22px;
-    margin: 20px;
-  }
-  
-  .grid {
-    width: 640px;
-    margin: 20px auto;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+/* GRID DEL MEMOTEST */
+.grid {
     display: grid;
-    grid-template-columns: repeat(4, 150px);
-    gap: 15px;
-  }
-  
-  .card {
-    width: 150px;
-    height: 150px;
+    grid-template-columns: repeat(4, 120px);
+    grid-gap: 12px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Fichas */
+.card {
+    width: 120px;
+    height: 120px;
     position: relative;
     cursor: pointer;
     transform-style: preserve-3d;
     transition: transform 0.5s;
-  }
-  
-  .card.flip {
+}
+
+.card.flip {
     transform: rotateY(180deg);
-  }
-  
-  .front, .back {
+}
+
+.card-face {
+    position: absolute;
     width: 100%;
     height: 100%;
-    position: absolute;
     backface-visibility: hidden;
     border-radius: 12px;
-  }
-  
-  .front {
-    transform: rotateY(180deg);
-  }
-  
-  .back {
+}
+
+/* Dorso con texto Art Match sin fondo */
+.card-back {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 26px;
-    font-weight: bold;
-    color: #5a4634;
-    border: 2px solid #5a4634;
-    background: transparent; /* SIN FONDO */
-  }
-  
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #3b2d22;
+    border: 3px solid #8d6f54;
+    background: transparent;
+}
+
+/* Frente ocupa TODO el cuadro */
+.card-front img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+    transform: rotateY(180deg);
+}
+
+.win-msg {
+    font-size: 32px;
+    font-family: 'Playfair Display';
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 150px);
+    grid-gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.gallery img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.gallery p {
+    font-size: 14px;
+    text-align: center;
+    margin-top: 5px;
+}
