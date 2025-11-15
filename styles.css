@@ -43,22 +43,14 @@ body {
 
 .btn:hover { background-color: #7b6047; }
 
-/* Instrucciones con cuadro.png y cuadro blanco adentro */
+/* Instrucciones recuadro blanco */
 .instructions-box {
-  background: url('img/cuadro.png') no-repeat center center;
-  background-size: contain;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 50px;
+  background-color: white;
+  padding: 30px;
+  border-radius: 12px;
   width: 80%;
   margin: auto;
-}
-
-.instructions-content {
-  background-color: white;
-  padding: 20px;
-  border-radius: 12px;
+  box-shadow: 0 0 10px #00000020;
   text-align: left;
   font-size: 18px;
 }
@@ -104,7 +96,6 @@ body {
   font-family: 'Playfair Display', serif;
   font-size: 18px;
   border: 5px solid #8d6f54; /* borde marrón */
-  border-radius: 6px;
 }
 
 .card-back { background: none; color: #3b2d22; }
@@ -125,13 +116,13 @@ body {
   font-size: 32px;
   color: #3b2d22;
   text-align: center;
-  border: 10px solid #8d6f54; /* recuadro marrón */
+  border: 10px solid #8d6f54;
   border-radius: 12px;
   box-shadow: 0 0 20px #5a3d2e;
   background-color: #fff8f0;
 }
 
-/* Galería tipo museo con recuadro y descripción */
+/* Galería */
 #gallery {
   display: flex;
   flex-wrap: wrap;
@@ -157,4 +148,5 @@ body {
 }
 
 .gallery-item h3 { margin: 5px 0; font-family: 'Playfair Display', serif; }
+.gallery-item h4 { margin: 2px 0; font-family: 'Playfair Display', serif; }
 .gallery-item p { font-size: 16px; }
