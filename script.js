@@ -12,7 +12,6 @@ document.getElementById("start-btn").onclick = () => {
 document.getElementById("play-btn").onclick = startGame;
 document.getElementById("gallery-btn").onclick = showGallery;
 
-// Imágenes exactas
 const images = [
   "monalisa.jpg","monalisa.jpg",
   "lanochestrellada.jpg","lanochestrellada.jpg",
@@ -27,14 +26,13 @@ let matchedPairs = 0;
 let timeLeft = 40*60;
 let timerInterval;
 
-function startGame() {
+function startGame(){
   instructionsScreen.classList.remove("active");
   gameScreen.classList.add("active");
 
   matchedPairs = 0;
   firstCard = null;
   timeLeft = 40*60;
-
   startTimer();
 
   const board = document.getElementById("game-board");
@@ -46,8 +44,10 @@ function startGame() {
     const card = document.createElement("div");
     card.classList.add("card");
     card.innerHTML = `
-      <div class="card-face card-back">ART MATCH</div>
-      <div class="card-face card-front"><img src="img/${src}"></div>
+      <div class="card-inner">
+        <div class="card-face card-back">ART MATCH</div>
+        <div class="card-face card-front"><img src="img/${src}"></div>
+      </div>
     `;
     card.addEventListener("click", ()=>flipCard(card, src));
     board.appendChild(card);
@@ -70,8 +70,9 @@ function startTimer(){
 }
 
 function flipCard(card, src){
-  if(lockBoard || card.classList.contains("flip") || card.classList.contains("matched")) return;
-  card.classList.add("flip");
+  const inner = card.querySelector(".card-inner");
+  if(lockBoard || inner.classList.contains("flip") || card.classList.contains("matched")) return;
+  inner.classList.add("flip");
 
   if(!firstCard){
     firstCard = {card, src};
@@ -93,8 +94,8 @@ function flipCard(card, src){
   } else {
     lockBoard = true;
     setTimeout(()=>{
-      firstCard.card.classList.remove("flip");
-      card.classList.remove("flip");
+      firstCard.card.querySelector(".card-inner").classList.remove("flip");
+      inner.classList.remove("flip");
       firstCard = null;
       lockBoard = false;
     },900);
