@@ -8,42 +8,52 @@
 </head>
 <body>
 
-    <!-- Pantalla de Bienvenida -->
-    <div id="welcome-screen" class="screen active">
-        <h1 class="title">ART MATCH</h1>
-        <h2 class="subtitle">Memotest</h2>
-        <button id="start-btn" class="btn">Comenzar</button>
-    </div>
+    <!-- PANTALLA 1 — Bienvenida -->
+    <section id="welcome-screen" class="screen active">
+        <h1>Art Match Memotest</h1>
+        <button id="start-btn">Comenzar</button>
+    </section>
 
-    <!-- Pantalla de Instrucciones -->
-    <div id="instructions-screen" class="screen">
+    <!-- PANTALLA 2 — Instrucciones -->
+    <section id="instructions-screen" class="screen">
         <div class="instructions-box">
-            <h2>Instrucciones</h2>
-            <p>- Da vuelta las fichas para encontrar pares iguales.</p>
-            <p>- Si coinciden, quedan descubiertas.</p>
-            <p>- Si no coinciden, se dan vuelta de nuevo.</p>
-            <p>- Cuando encuentres todos los pares, accederás a la galería de obras.</p>
+            <h2>Instrucciones del juego</h2>
+            <p>
+                Encontrá las parejas de obras de arte.  
+                Las fichas comienzan dadas vuelta.  
+                Si se acaba el tiempo, perdés la partida.  
+                Si encontrás todas las parejas, ganás y accedés a la galería final.
+            </p>
         </div>
-        <button id="play-btn" class="btn">Jugar</button>
-    </div>
+        <button id="play-btn">Jugar</button>
+    </section>
 
-    <!-- Pantalla del Juego -->
-    <div id="game-screen" class="screen">
-        <div id="game-board" class="grid"></div>
-    </div>
+    <!-- PANTALLA 3 — Juego -->
+    <section id="game-screen" class="screen">
+        <div class="top-bar">
+            <span id="timer">40:00</span>
+        </div>
 
-    <!-- Pantalla de Victoria -->
-    <div id="win-screen" class="screen">
-        <h2 class="win-msg">¡Felicitaciones! 🎉</h2>
-        <p>Completaste el Art Match.</p>
-        <button id="gallery-btn" class="btn">Ver Galería</button>
-    </div>
+        <div id="game-board"></div>
+    </section>
 
-    <!-- Pantalla Galería -->
-    <div id="gallery-screen" class="screen">
+    <!-- PANTALLA 4 — Victoria -->
+    <section id="win-screen" class="screen">
+        <h2>¡Felicitaciones! Ganaste 🎉</h2>
+        <button id="gallery-btn">Ver galería</button>
+    </section>
+
+    <!-- PANTALLA 5 — Derrota -->
+    <section id="lose-screen" class="screen">
+        <h2>Tiempo agotado 😢</h2>
+        <button id="retry-btn">Volver a jugar</button>
+    </section>
+
+    <!-- PANTALLA 6 — Galería -->
+    <section id="gallery-screen" class="screen">
         <h2>Galería de Obras</h2>
-        <div id="gallery" class="gallery"></div>
-    </div>
+        <div id="gallery"></div>
+    </section>
 
     <script src="script.js"></script>
 </body>
