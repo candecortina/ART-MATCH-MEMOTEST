@@ -75,21 +75,21 @@ body {
   margin-bottom: 10px;
 }
 
-/* Grid Memotest */
+/* Grid Memotest 2 filas x 6 */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(120px,1fr));
+  grid-template-columns: repeat(6, 120px);
+  grid-template-rows: repeat(2, 120px);
   grid-gap: 12px;
   justify-content: center;
   margin-top: 20px;
 }
 
 .card {
-  width: 140px;
-  height: 140px;
+  width: 120px;
+  height: 120px;
   perspective: 1000px;
   cursor: pointer;
-  margin: auto;
 }
 
 .card-inner {

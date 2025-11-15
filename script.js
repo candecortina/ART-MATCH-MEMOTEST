@@ -1,11 +1,11 @@
 const welcomeScreen = document.getElementById("welcome-screen");
 const instructionsScreen = document.getElementById("instructions-screen");
 const gameScreen = document.getElementById("game-screen");
-const winScreen = document.getElementById("win-screen");
+const endScreen = document.getElementById("end-screen");
 const galleryScreen = document.getElementById("gallery-screen");
 const playAgainBtn = document.getElementById("play-again-btn");
 
-document.getElementById("start-btn").onclick = () => {
+document.getElementById("start-btn").onclick = ()=>{
   welcomeScreen.classList.remove("active");
   instructionsScreen.classList.add("active");
 };
@@ -33,7 +33,7 @@ function startGame(){
   instructionsScreen.classList.remove("active");
   gameScreen.classList.add("active");
   galleryScreen.classList.remove("active");
-  winScreen.classList.remove("active");
+  endScreen.classList.remove("active");
 
   matchedPairs = 0;
   pairsFound = 0;
@@ -51,15 +51,13 @@ function startGame(){
     const card = document.createElement("div");
     card.classList.add("card");
     card.dataset.src = src;
-
     card.innerHTML = `
       <div class="card-inner">
         <div class="card-face card-back">ART MATCH</div>
         <div class="card-face card-front"><img src="img/${src}"></div>
       </div>
     `;
-
-    card.addEventListener("click", () => flipCard(card));
+    card.addEventListener("click", ()=>flipCard(card));
     board.appendChild(card);
   });
 }
@@ -110,23 +108,23 @@ function flipCard(card){
 
 function loseGame(){
   gameScreen.classList.remove("active");
-  winScreen.innerHTML = `
+  endScreen.innerHTML = `
     <h2 class="win-msg">¡Se acabó el tiempo! ⏳</h2>
     <p>No lograste completar el memotest.</p>
     <button id="try-again-btn" class="btn">Intentar de nuevo</button>
   `;
-  winScreen.classList.add("active");
+  endScreen.classList.add("active");
   document.getElementById("try-again-btn").onclick = startGame;
 }
 
 function showWinScreen(){
   gameScreen.classList.remove("active");
-  winScreen.innerHTML = `
+  endScreen.innerHTML = `
     <h2 class="win-msg">¡Felicitaciones! 🎉</h2>
     <p>Completaste el Art Match.</p>
     <button id="gallery-btn" class="btn">Ver Galería</button>
   `;
-  winScreen.classList.add("active");
+  endScreen.classList.add("active");
   document.getElementById("gallery-btn").addEventListener("click", showGallery);
 }
 
@@ -143,7 +141,7 @@ const galleryImages = [
 let currentIndex = 0;
 
 function showGallery(){
-  winScreen.classList.remove("active");
+  endScreen.classList.remove("active");
   galleryScreen.classList.add("active");
   renderGallery();
 }
@@ -173,6 +171,6 @@ document.getElementById("prev").onclick = ()=>{
   if(currentIndex-3>=0){ currentIndex-=3; renderGallery(); }
 };
 
-// --- Modal ---
+// Modal
 document.getElementById("modal-close").onclick = ()=>document.getElementById("modal").style.display="none";
 document.getElementById("modal").onclick = (e)=>{if(e.target.id==="modal") document.getElementById("modal").style.display="none";};
