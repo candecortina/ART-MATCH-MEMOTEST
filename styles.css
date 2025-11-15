@@ -214,3 +214,16 @@ body {
   color: #fff;
   cursor: pointer;
 }
+/* --- CENTRAR SOLO EL MEMOTEST --- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  grid-gap: 15px;
+
+  width: fit-content;         /* el grid ocupa solo lo necesario */
+  margin: 20px auto 0 auto;   /* centrado horizontal sin mover nada más */
+
+  justify-content: center;
+  align-items: center;
+}
+
