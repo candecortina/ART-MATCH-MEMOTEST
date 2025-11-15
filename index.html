@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Art Match</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Pantalla de Bienvenida -->
+    <div id="welcome-screen" class="screen visible">
+        <h1 class="title">Art Match Memotest</h1>
+        <button id="continue-btn" class="btn">Continuar</button>
+    </div>
+
+    <!-- Instrucciones -->
+    <div id="instructions-screen" class="screen">
+        <h2>Instrucciones</h2>
+        <p>
+            Encontrá todas las parejas de obras famosas antes de que termine el tiempo.
+            Tendrás 40 minutos para completar el juego.
+            Cuando ganes, podrás ver una galería final con información sobre cada obra.
+        </p>
+        <button id="start-btn" class="btn start">Comenzar</button>
+    </div>
+
+    <!-- Juego -->
+    <div id="game-screen" class="screen">
+        <div class="top-bar">
+            <span id="timer">40:00</span>
+        </div>
+
+        <div id="game-board" class="board"></div>
+    </div>
+
+    <!-- Pantalla de Fin Victoria -->
+    <div id="win-screen" class="screen">
+        <h2>¡Felicitaciones! Has ganado el juego</h2>
+        <button id="gallery-btn" class="btn">Ver galería final</button>
+    </div>
+
+    <!-- Pantalla de Derrota -->
+    <div id="lose-screen" class="screen">
+        <h2>Se acabó el tiempo…</h2>
+        <p>No lograste completar el memotest.</p>
+    </div>
+
+    <!-- Galería Final -->
+    <div id="gallery-screen" class="screen">
+        <h2>Galería de Obras</h2>
+        <div class="gallery"></div>
+        <button id="restart-btn" class="btn">Reiniciar juego</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
