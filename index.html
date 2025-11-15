@@ -1,61 +1,62 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Art Match</title>
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Art Match</title>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <!-- Pantalla de Bienvenida -->
-    <div id="welcome-screen" class="screen active">
-        <h1 class="title">ART MATCH</h1>
-        <h2 class="subtitle">Memotest</h2>
-        <button id="start-btn" class="btn">Comenzar</button>
-    </div>
+<!-- Pantalla de Bienvenida -->
+<div id="welcome-screen" class="screen active">
+  <h1 class="title">ART MATCH</h1>
+  <h2 class="subtitle">Memotest</h2>
+  <button id="start-btn" class="btn">Comenzar</button>
+</div>
 
-    <!-- Pantalla de Instrucciones -->
-    <div id="instructions-screen" class="screen">
-        <div class="instructions-box">
-            <h2>Instrucciones</h2>
-            <p>- Da vuelta las fichas para encontrar pares iguales.</p>
-            <p>- Si coinciden, quedan descubiertas.</p>
-            <p>- Si no coinciden, se vuelven a dar vuelta.</p>
-            <p>- Cuando encuentres todos los pares, accederás a la galería de obras.</p>
-        </div>
-        <button id="play-btn" class="btn">Jugar</button>
-    </div>
+<!-- Pantalla de Instrucciones -->
+<div id="instructions-screen" class="screen">
+  <div class="instructions-box">
+    <h2>Instrucciones</h2>
+    <p>- Da vuelta las fichas para encontrar pares iguales.</p>
+    <p>- Si coinciden, quedan descubiertas.</p>
+    <p>- Si no coinciden, se vuelven a dar vuelta.</p>
+    <p>- Cuando encuentres todos los pares, accederás a la galería de obras.</p>
+  </div>
+  <button id="play-btn" class="btn">Jugar</button>
+</div>
 
-    <!-- Pantalla del Juego -->
-    <div id="game-screen" class="screen">
-        <div id="timer" class="timer"></div>
-        <div id="game-board" class="grid"></div>
-        <div id="pairs-counter">Pares encontrados: 0</div>
-    </div>
+<!-- Pantalla del Juego -->
+<div id="game-screen" class="screen">
+  <div id="timer" class="timer"></div>
+  <div id="pairs-counter" class="pairs-counter">Pares encontrados: 0 / 6</div>
+  <div id="game-board" class="grid"></div>
+</div>
 
-    <!-- Pantalla de Victoria / Derrota -->
-    <div id="win-screen" class="screen"></div>
+<!-- Pantalla de Victoria / Derrota -->
+<div id="win-screen" class="screen"></div>
 
-    <!-- Pantalla Galería -->
-    <div id="gallery-screen" class="screen">
-        <h2>Galería de Obras</h2>
-        <div id="gallery-container">
-            <button id="prev" class="arrow-btn">&#10094;</button>
-            <div id="gallery" class="gallery"></div>
-            <button id="next" class="arrow-btn">&#10095;</button>
-        </div>
-    </div>
+<!-- Pantalla Galería -->
+<div id="gallery-screen" class="screen">
+  <h2>Galería de Obras</h2>
+  <div id="gallery-container">
+    <button id="prev" class="arrow-btn">&#10094;</button>
+    <div id="gallery" class="gallery"></div>
+    <button id="next" class="arrow-btn">&#10095;</button>
+  </div>
+  <button id="play-again-btn" class="btn">Jugar de nuevo</button>
+</div>
 
-    <!-- Modal para imagen ampliada -->
-    <div id="modal">
-      <div id="modal-content">
-        <span id="modal-close">&times;</span>
-        <img id="modal-img" src="">
-        <p id="modal-info"></p>
-      </div>
-    </div>
+<!-- Modal para imagen ampliada -->
+<div id="modal">
+  <div id="modal-content">
+    <span id="modal-close">&times;</span>
+    <img id="modal-img" src="">
+    <p id="modal-info"></p>
+  </div>
+</div>
 
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

@@ -3,6 +3,7 @@ const instructionsScreen = document.getElementById("instructions-screen");
 const gameScreen = document.getElementById("game-screen");
 const winScreen = document.getElementById("win-screen");
 const galleryScreen = document.getElementById("gallery-screen");
+const playAgainBtn = document.getElementById("play-again-btn");
 
 document.getElementById("start-btn").onclick = () => {
   welcomeScreen.classList.remove("active");
@@ -10,6 +11,7 @@ document.getElementById("start-btn").onclick = () => {
 };
 
 document.getElementById("play-btn").onclick = startGame;
+if(playAgainBtn) playAgainBtn.onclick = startGame;
 
 const images = [
   "monalisa.jpg","monalisa.jpg",
@@ -30,14 +32,15 @@ let timerInterval;
 function startGame(){
   instructionsScreen.classList.remove("active");
   gameScreen.classList.add("active");
+  galleryScreen.classList.remove("active");
+  winScreen.classList.remove("active");
 
   matchedPairs = 0;
   pairsFound = 0;
   firstCard = null;
   timeLeft = 40;
   startTimer();
-
-  document.getElementById("pairs-counter").textContent = `Pares encontrados: ${pairsFound}`;
+  document.getElementById("pairs-counter").textContent = `Pares encontrados: ${pairsFound} / 6`;
 
   const board = document.getElementById("game-board");
   board.innerHTML = "";
@@ -64,10 +67,11 @@ function startGame(){
 function startTimer(){
   const timer = document.getElementById("timer");
   clearInterval(timerInterval);
+  timer.textContent = `Tiempo: ${timeLeft}s`;
   timerInterval = setInterval(()=>{
-    timer.textContent = `Tiempo: ${timeLeft} s`;
-    if(timeLeft<=0){ clearInterval(timerInterval); loseGame(); }
     timeLeft--;
+    timer.textContent = `Tiempo: ${timeLeft}s`;
+    if(timeLeft<=0){ clearInterval(timerInterval); loseGame(); }
   },1000);
 }
 
@@ -87,14 +91,11 @@ function flipCard(card){
     firstCard = null;
     matchedPairs++;
     pairsFound++;
-    document.getElementById("pairs-counter").textContent = `Pares encontrados: ${pairsFound}`;
+    document.getElementById("pairs-counter").textContent = `Pares encontrados: ${pairsFound} / 6`;
 
     if(matchedPairs === images.length/2){
       clearInterval(timerInterval);
-      setTimeout(()=>{
-        gameScreen.classList.remove("active");
-        showWinScreen();
-      },500);
+      setTimeout(showWinScreen,500);
     }
   } else {
     lockBoard = true;
@@ -112,11 +113,14 @@ function loseGame(){
   winScreen.innerHTML = `
     <h2 class="win-msg">¡Se acabó el tiempo! ⏳</h2>
     <p>No lograste completar el memotest.</p>
+    <button id="try-again-btn" class="btn">Intentar de nuevo</button>
   `;
   winScreen.classList.add("active");
+  document.getElementById("try-again-btn").onclick = startGame;
 }
 
 function showWinScreen(){
+  gameScreen.classList.remove("active");
   winScreen.innerHTML = `
     <h2 class="win-msg">¡Felicitaciones! 🎉</h2>
     <p>Completaste el Art Match.</p>
@@ -147,7 +151,7 @@ function showGallery(){
 function renderGallery(){
   const gal = document.getElementById("gallery");
   gal.innerHTML = "";
-  const slice = galleryImages.slice(currentIndex, currentIndex+3);
+  const slice = galleryImages.slice(currentIndex,currentIndex+3);
   slice.forEach(o=>{
     const box = document.createElement("div");
     box.classList.add("gallery-item");
@@ -163,19 +167,12 @@ function renderGallery(){
 }
 
 document.getElementById("next").onclick = ()=>{
-  if(currentIndex +3 < galleryImages.length){
-    currentIndex +=3;
-    renderGallery();
-  }
+  if(currentIndex+3<galleryImages.length){ currentIndex+=3; renderGallery(); }
 };
-
 document.getElementById("prev").onclick = ()=>{
-  if(currentIndex -3 >=0){
-    currentIndex -=3;
-    renderGallery();
-  }
+  if(currentIndex-3>=0){ currentIndex-=3; renderGallery(); }
 };
 
 // --- Modal ---
-document.getElementById("modal-close").onclick = () => document.getElementById("modal").style.display = "none";
-document.getElementById("modal").onclick = (e) => { if(e.target.id==="modal") document.getElementById("modal").style.display="none"; };
+document.getElementById("modal-close").onclick = ()=>document.getElementById("modal").style.display="none";
+document.getElementById("modal").onclick = (e)=>{if(e.target.id==="modal") document.getElementById("modal").style.display="none";};
