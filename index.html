@@ -1,70 +1,50 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Art Match — Memotest</title>
-
-  <!-- Tipografías -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
-
-  <!-- Estilos -->
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Art Match</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main class="site">
-    <header class="header">
-      <div class="brand">
-        <h1 class="brand-title">Art Match</h1>
-        <p class="brand-sub">Memotest · Obras famosas · Estilo museo clásico</p>
-      </div>
-      <div class="controls">
-        <div class="timer" id="timer">40:00</div>
-        <button id="startBtn" class="btn primary">Jugar</button>
-        <button id="resetBtn" class="btn ghost">Reiniciar</button>
-      </div>
-    </header>
 
-    <section class="panel instructions-panel" aria-labelledby="instr-title">
-      <h2 id="instr-title">Instrucciones</h2>
-      <p>Antes de comenzar todas las fichas estarán con el dorso <strong>Art Match</strong>. Hacé click en una ficha para descubrirla. Si encontrás la pareja, las fichas se quedan dadas vuelta. Si no coinciden, no se vuelven a ocultar solas: debés tocarlas nuevamente para darles vuelta. Tenés <strong>40 minutos</strong> para completar todas las parejas.</p>
-    </section>
-
-    <section class="panel board-wrap" aria-label="Tablero de juego">
-      <div id="board" class="board" role="grid"></div>
-    </section>
-
-    <section id="galleryPanel" class="panel gallery-panel" style="display:none;">
-      <h2>Galería final</h2>
-      <div id="gallery" class="gallery-grid"></div>
-      <div class="center">
-        <button id="backBtn" class="btn ghost">Volver</button>
-      </div>
-    </section>
-  </main>
-
-  <!-- Modales -->
-  <div id="winModal" class="modal-overlay" style="display:none;">
-    <div class="modal">
-      <h3>¡Felicitaciones! Has ganado</h3>
-      <p>Completaste todas las parejas. Mirá la galería final para leer la historia de cada obra.</p>
-      <div class="modal-actions">
-        <button id="viewGalleryBtn" class="btn primary">Ver galería</button>
-        <button id="closeWinBtn" class="btn ghost">Cerrar</button>
-      </div>
+    <!-- Pantalla de Bienvenida -->
+    <div id="welcome-screen" class="screen active">
+        <h1 class="title">ART MATCH</h1>
+        <h2 class="subtitle">Memotest</h2>
+        <button id="start-btn" class="btn">Comenzar</button>
     </div>
-  </div>
 
-  <div id="loseModal" class="modal-overlay" style="display:none;">
-    <div class="modal">
-      <h3>Se acabó el tiempo</h3>
-      <p>No completaste las parejas. Podés intentarlo de nuevo.</p>
-      <div class="modal-actions">
-        <button id="tryAgainBtn" class="btn primary">Reiniciar</button>
-      </div>
+    <!-- Pantalla de Instrucciones -->
+    <div id="instructions-screen" class="screen">
+        <div class="instructions-box">
+            <h2>Instrucciones</h2>
+            <p>- Da vuelta las fichas para encontrar pares iguales.</p>
+            <p>- Si coinciden, quedan descubiertas.</p>
+            <p>- Si no coinciden, se dan vuelta de nuevo.</p>
+            <p>- Cuando encuentres todos los pares, accederás a la galería de obras.</p>
+        </div>
+        <button id="play-btn" class="btn">Jugar</button>
     </div>
-  </div>
 
-  <script src="script.js"></script>
+    <!-- Pantalla del Juego -->
+    <div id="game-screen" class="screen">
+        <div id="game-board" class="grid"></div>
+    </div>
+
+    <!-- Pantalla de Victoria -->
+    <div id="win-screen" class="screen">
+        <h2 class="win-msg">¡Felicitaciones! 🎉</h2>
+        <p>Completaste el Art Match.</p>
+        <button id="gallery-btn" class="btn">Ver Galería</button>
+    </div>
+
+    <!-- Pantalla Galería -->
+    <div id="gallery-screen" class="screen">
+        <h2>Galería de Obras</h2>
+        <div id="gallery" class="gallery"></div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
