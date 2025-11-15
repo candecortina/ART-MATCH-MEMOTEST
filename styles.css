@@ -214,23 +214,3 @@ body {
   color: #fff;
   cursor: pointer;
 }
-/* --- Centrar MEMOTEST --- */
-#game-screen {
-  display: flex;
-  flex-direction: column;
-  align-items: center;   /* CENTRA TODO AL MEDIO */
-  justify-content: flex-start;
-  text-align: center;
-  width: 100%;
-}
-
-#board {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 3 filas de 4 fichas */
-  gap: 20px;
-  margin-top: 20px;
-
-  /* Esto lo centra en el medio */
-  justify-content: center;
-  align-items: center;
-}
