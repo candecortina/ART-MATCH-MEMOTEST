@@ -8,61 +8,41 @@
 </head>
 <body>
 
-    <!-- PANTALLA DE INICIO -->
-    <section id="inicio" class="pantalla">
-        <h1 class="titulo-inicio">ART MATCH</h1>
-
-        <div class="instrucciones-inicio">
-            <h2>Instrucciones de Juego</h2>
-            <p>
-                Encontrá las parejas de obras maestras.  
-                Tenés 45 segundos para completar el desafío.  
-                Si las fichas no coinciden, se dan vuelta nuevamente.  
-                ¡Buena suerte!
-            </p>
-        </div>
-
-        <button id="btnComenzar" class="btn">Comenzar</button>
-    </section>
-
-    <!-- PANTALLA DEL JUEGO -->
-    <section id="juego" class="pantalla hidden">
-        <h2 id="tiempo">Tiempo: 45</h2>
-        <div id="tablero" class="game-board"></div>
-    </section>
-
-    <!-- MENSAJE GANAR -->
-    <div id="mensajeGanar" class="modal hidden">
-        <div class="modal-content">
-            <h2>¡Felicidades!</h2>
-            <p>Completaste todas las obras a tiempo.</p>
-            <button id="irGaleria" class="btn">Ver Galería</button>
-        </div>
+    <!-- Pantalla de Bienvenida -->
+    <div id="welcome-screen" class="screen active">
+        <h1 class="title">ART MATCH</h1>
+        <h2 class="subtitle">Memotest</h2>
+        <button id="start-btn" class="btn">Comenzar</button>
     </div>
 
-    <!-- MENSAJE PERDER -->
-    <div id="mensajePerder" class="modal hidden">
-        <div class="modal-content">
-            <h2>¡Tiempo agotado!</h2>
-            <p>No pudiste completar el desafío.</p>
-            <button id="irGaleria2" class="btn">Ver Galería</button>
+    <!-- Pantalla de Instrucciones -->
+    <div id="instructions-screen" class="screen">
+        <div class="instructions-box">
+            <h2>Instrucciones</h2>
+            <p>- Da vuelta las fichas para encontrar pares iguales.</p>
+            <p>- Si coinciden, quedan descubiertas.</p>
+            <p>- Si no coinciden, se dan vuelta de nuevo.</p>
+            <p>- Cuando encuentres todos los pares, accederás a la galería de obras.</p>
         </div>
+        <button id="play-btn" class="btn">Jugar</button>
     </div>
 
-    <!-- GALERÍA FINAL -->
-    <section id="galeria" class="pantalla hidden">
-        <h1 class="titulo-galeria">Galería de Obras</h1>
-        <div id="contenedorGaleria" class="galeria-grid"></div>
-    </section>
+    <!-- Pantalla del Juego -->
+    <div id="game-screen" class="screen">
+        <div id="game-board" class="grid"></div>
+    </div>
 
-    <!-- VISTA PREVIA -->
-    <div id="preview" class="preview hidden">
-        <div class="preview-content">
-            <img id="previewImg">
-            <h3 id="previewTitulo"></h3>
-            <p id="previewDesc"></p>
-            <button id="cerrarPreview" class="btn">Cerrar</button>
-        </div>
+    <!-- Pantalla de Victoria -->
+    <div id="win-screen" class="screen">
+        <h2 class="win-msg">¡Felicitaciones! 🎉</h2>
+        <p>Completaste el Art Match.</p>
+        <button id="gallery-btn" class="btn">Ver Galería</button>
+    </div>
+
+    <!-- Pantalla Galería -->
+    <div id="gallery-screen" class="screen">
+        <h2>Galería de Obras</h2>
+        <div id="gallery" class="gallery"></div>
     </div>
 
     <script src="script.js"></script>

@@ -1,157 +1,96 @@
-const obras = [
-    {
-        nombre: "La Mona Lisa",
-        artista: "Leonardo da Vinci",
-        archivo: "monalisa.jpg",
-        descripcion: "Pintada entre 1503-1506. Famosa por su sonrisa enigmática y su composición innovadora."
-    },
-    {
-        nombre: "El Grito",
-        artista: "Edvard Munch",
-        archivo: "scream.jpg",
-        descripcion: "Creada en 1893. Representa angustia existencial y es un ícono del expresionismo."
-    },
-    {
-        nombre: "La Joven de la Perla",
-        artista: "Johannes Vermeer",
-        archivo: "laperla.jpg",
-        descripcion: "Pintada en 1665. Famosa obra barroca conocida como ‘la Mona Lisa holandesa’."
-    },
-    {
-        nombre: "La Noche Estrellada",
-        artista: "Vincent van Gogh",
-        archivo: "lanochestrellada.jpg",
-        descripcion: "Pintada en 1889 desde el hospital psiquiátrico de Saint-Rémy. Una de sus obras más icónicas."
-    },
-    {
-        nombre: "La Persistencia de la Memoria",
-        artista: "Salvador Dalí",
-        archivo: "persistencia_memoria.jpg",
-        descripcion: "Obra surrealista de 1931 famosa por los relojes derretidos y su atmósfera onírica."
-    }
+const welcomeScreen = document.getElementById("welcome-screen");
+const instructionsScreen = document.getElementById("instructions-screen");
+const gameScreen = document.getElementById("game-screen");
+const winScreen = document.getElementById("win-screen");
+const galleryScreen = document.getElementById("gallery-screen");
+
+document.getElementById("start-btn").onclick = () => {
+    welcomeScreen.classList.remove("active");
+    instructionsScreen.classList.add("active");
+};
+
+document.getElementById("play-btn").onclick = startGame;
+document.getElementById("gallery-btn").onclick = showGallery;
+
+const images = [
+    "img1.jpg", "img1.jpg",
+    "img2.jpg", "img2.jpg",
+    "img3.jpg", "img3.jpg",
+    "img4.jpg", "img4.jpg",
+    "img5.jpg", "img5.jpg",
+    "img6.jpg", "img6.jpg"
 ];
 
-let cartas = [];
-let primera = null;
-let bloqueo = false;
-let tiempoRestante = 45;
-let temporizador;
+let firstCard = null;
+let lockBoard = false;
+let matchedPairs = 0;
 
-const inicio = document.getElementById("inicio");
-const juego = document.getElementById("juego");
-const tablero = document.getElementById("tablero");
-const mensajeGanar = document.getElementById("mensajeGanar");
-const mensajePerder = document.getElementById("mensajePerder");
-const tiempo = document.getElementById("tiempo");
-const galeria = document.getElementById("galeria");
+function startGame() {
+    instructionsScreen.classList.remove("active");
+    gameScreen.classList.add("active");
 
-document.getElementById("btnComenzar").onclick = iniciarJuego;
-document.getElementById("irGaleria").onclick = mostrarGaleria;
-document.getElementById("irGaleria2").onclick = mostrarGaleria;
-document.getElementById("cerrarPreview").onclick = () =>
-    document.getElementById("preview").classList.add("hidden");
+    const board = document.getElementById("game-board");
+    board.innerHTML = "";
 
-function iniciarJuego() {
-    inicio.classList.add("hidden");
-    juego.classList.remove("hidden");
+    const shuffled = images.sort(() => Math.random() - 0.5);
 
-    generarCartas();
-    iniciarTemporizador();
-}
-
-function generarCartas() {
-    let duplicadas = [...obras, ...obras];
-    cartas = duplicadas.sort(() => Math.random() - 0.5);
-
-    tablero.innerHTML = "";
-
-    cartas.forEach((obra, index) => {
+    shuffled.forEach(src => {
         const card = document.createElement("div");
         card.classList.add("card");
-        card.dataset.index = index;
 
         card.innerHTML = `
-            <div class="dorso">Art Match</div>
-            <img src="img/${obra.archivo}">
+            <div class="card-face card-back"></div>
+            <div class="card-face card-front"><img src="images/${src}"></div>
         `;
 
-        card.onclick = () => voltear(card);
-        tablero.appendChild(card);
+        card.addEventListener("click", () => flip(card, src));
+        board.appendChild(card);
     });
 }
 
-function voltear(card) {
-    if (bloqueo || card.classList.contains("flipped")) return;
+function flip(card, src) {
+    if (lockBoard || card.classList.contains("flip")) return;
 
-    card.classList.add("flipped");
+    card.classList.add("flip");
 
-    if (!primera) {
-        primera = card;
+    if (!firstCard) {
+        firstCard = { card, src };
         return;
     }
 
-    const segunda = card;
+    if (firstCard.src === src) {
+        matchedPairs++;
+        firstCard = null;
 
-    const obra1 = cartas[primera.dataset.index];
-    const obra2 = cartas[segunda.dataset.index];
-
-    if (obra1.archivo === obra2.archivo) {
-        primera = null;
-
-        if (document.querySelectorAll(".flipped").length === cartas.length) {
-            clearInterval(temporizador);
-            mensajeGanar.classList.remove("hidden");
+        if (matchedPairs === images.length / 2) {
+            setTimeout(() => {
+                gameScreen.classList.remove("active");
+                winScreen.classList.add("active");
+            }, 600);
         }
-
     } else {
-        bloqueo = true;
+        lockBoard = true;
         setTimeout(() => {
-            primera.classList.remove("flipped");
-            segunda.classList.remove("flipped");
-            primera = null;
-            bloqueo = false;
+            card.classList.remove("flip");
+            firstCard.card.classList.remove("flip");
+            firstCard = null;
+            lockBoard = false;
         }, 900);
     }
 }
 
-function iniciarTemporizador() {
-    tiempo.textContent = `Tiempo: ${tiempoRestante}`;
+function showGallery() {
+    winScreen.classList.remove("active");
+    galleryScreen.classList.add("active");
 
-    temporizador = setInterval(() => {
-        tiempoRestante--;
-        tiempo.textContent = `Tiempo: ${tiempoRestante}`;
+    const gal = document.getElementById("gallery");
+    gal.innerHTML = "";
 
-        if (tiempoRestante <= 0) {
-            clearInterval(temporizador);
-            juego.classList.add("hidden");
-            mensajePerder.classList.remove("hidden");
-        }
-    }, 1000);
-}
+    const unique = [...new Set(images)];
 
-function mostrarGaleria() {
-    mensajeGanar.classList.add("hidden");
-    mensajePerder.classList.add("hidden");
-
-    juego.classList.add("hidden");
-    galeria.classList.remove("hidden");
-
-    const cont = document.getElementById("contenedorGaleria");
-    cont.innerHTML = "";
-
-    obras.forEach(obra => {
-        const img = document.createElement("img");
-        img.src = "img/" + obra.archivo;
-
-        img.onclick = () => abrirPreview(obra);
-
-        cont.appendChild(img);
+    unique.forEach(img => {
+        const el = document.createElement("img");
+        el.src = "images/" + img;
+        gal.appendChild(el);
     });
-}
-
-function abrirPreview(obra) {
-    document.getElementById("previewImg").src = "img/" + obra.archivo;
-    document.getElementById("previewTitulo").textContent = `${obra.nombre} – ${obra.artista}`;
-    document.getElementById("previewDesc").textContent = obra.descripcion;
-    document.getElementById("preview").classList.remove("hidden");
 }

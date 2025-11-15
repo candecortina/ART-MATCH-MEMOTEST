@@ -1,169 +1,127 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400;600&display=swap');
+
 body {
     margin: 0;
-    font-family: "Playfair Display", serif;
-    background-color: #fdf8f2;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f8f1e6;
+    color: #4b3a2f;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    height: 100vh;
 }
 
-/* PANTALLAS */
-.pantalla {
+.screen {
+    display: none;
     text-align: center;
-    width: 100%;
-    max-width: 900px;
     padding: 20px;
 }
 
-/* INICIO */
-.titulo-inicio {
-    font-size: 3rem;
-    color: #5a3e2b;
-    margin-bottom: 20px;
-}
-
-.instrucciones-inicio {
-    margin: 20px auto;
-    width: 80%;
-    font-size: 1.2rem;
-}
-
-.btn {
-    background-color: #b88a50;
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 10px;
-    font-size: 1.1rem;
-    cursor: pointer;
-    margin-top: 20px;
-}
-
-.btn:hover {
-    background-color: #d9aa66;
-}
-
-/* TABLERO */
-.game-board {
-    display: grid;
-    grid-template-columns: repeat(5, 150px);
-    gap: 20px;
-    justify-content: center;
-    margin-top: 30px;
-}
-
-.card {
-    width: 150px;
-    height: 150px;
-    border: 5px solid #b88a50;
-    border-radius: 10px;
-    background-color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    overflow: hidden;
-    position: relative;
-}
-
-/* FOTOS */
-.card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: none;
-}
-
-/* FICHA DORSO */
-.card .dorso {
-    width: 100%;
-    height: 100%;
-    background-color: #f8f4ec;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.4rem;
-    color: #5a3e2b;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-/* FICHA MOSTRADA */
-.card.flipped img {
+.screen.active {
     display: block;
 }
 
-.card.flipped .dorso {
-    display: none;
+.title {
+    font-family: 'Playfair Display', serif;
+    font-size: 60px;
+    color: #3b2d22;
+    margin-bottom: 0;
 }
 
-/* MODALES */
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.4);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.subtitle {
+    font-size: 28px;
+    margin-top: 5px;
+    opacity: 0.7;
 }
 
-.modal-content {
-    background-color: #fff7ee;
-    padding: 25px;
-    border-radius: 15px;
-    width: 300px;
-    text-align: center;
-    border: 4px solid #b88a50;
-}
-
-/* GALERÍA */
-.galeria-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 25px;
-    margin-top: 30px;
-}
-
-.galeria-grid img {
-    width: 100%;
-    height: auto;
-    border: 5px solid #b88a50;
-    border-radius: 12px;
-    cursor: pointer;
-}
-
-/* PREVIEW */
-.preview {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.preview-content {
-    background: #fff7ee;
-    padding: 25px;
+.btn {
+    padding: 14px 28px;
+    font-size: 18px;
+    background-color: #8d6f54;
+    color: white;
+    border: none;
     border-radius: 10px;
-    max-width: 450px;
-    text-align: center;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: 0.2s;
 }
 
-.hidden {
-    display: none;
+.btn:hover {
+    background-color: #7b6047;
 }
 
-@media (max-width: 600px) {
-    .game-board {
-        grid-template-columns: repeat(2, 150px);
-    }
+.instructions-box {
+    background: #fff;
+    padding: 25px;
+    border-radius: 16px;
+    width: 80%;
+    margin: auto;
+    box-shadow: 0 0 10px #00000020;
+    font-size: 18px;
+}
+
+/* GRID DEL MEMOTEST */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 120px);
+    grid-gap: 12px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Fichas */
+.card {
+    width: 120px;
+    height: 120px;
+    position: relative;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 0.5s;
+}
+
+.card.flip {
+    transform: rotateY(180deg);
+}
+
+.card-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 12px;
+}
+
+/* Dorso sin color, solo borde */
+.card-back {
+    background: none;
+    border: 3px solid #8d6f54;
+}
+
+/* Frente ocupa TODO el cuadro */
+.card-front img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+    transform: rotateY(180deg);
+}
+
+.win-msg {
+    font-size: 32px;
+    font-family: 'Playfair Display';
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 150px);
+    grid-gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.gallery img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 10px;
 }
