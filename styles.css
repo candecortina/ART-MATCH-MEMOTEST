@@ -257,3 +257,18 @@ body {
   margin-bottom: 15px;
   color: #4b3a2f;
 }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  grid-gap: 12px;
+  width: 90%;
+  max-width: 650px;
+  margin: 20px auto 0 auto;
+}
+.card {
+  width: 100%;
+  padding-top: 100%;
+  position: relative;
+  cursor: pointer;
+  perspective: 1000px;
+}
