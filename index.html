@@ -1,61 +1,51 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Art Match</title>
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Art Match</title>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <!-- Pantalla de Bienvenida -->
-    <div id="welcome-screen" class="screen active">
-        <h1 class="title">ART MATCH</h1>
-        <h2 class="subtitle">Memotest</h2>
-        <button id="start-btn" class="btn">Comenzar</button>
+<div id="welcome-screen" class="screen active">
+    <h1 class="title">ART MATCH</h1>
+    <h2 class="subtitle">Memotest</h2>
+    <button id="start-btn" class="btn">Comenzar</button>
+</div>
+
+<div id="instructions-screen" class="screen">
+    <div class="instructions-box">
+        <h2>Instrucciones</h2>
+        <p>- Da vuelta las fichas para encontrar pares iguales.</p>
+        <p>- Si coinciden, quedan descubiertas.</p>
+        <p>- Si no coinciden, se dan vuelta de nuevo.</p>
+        <p>- Cuando encuentres todos los pares, accederás a la galería de obras.</p>
     </div>
+    <button id="play-btn" class="btn">Jugar</button>
+</div>
 
-    <!-- Pantalla de Instrucciones -->
-    <div id="instructions-screen" class="screen">
-        <div class="instructions-box">
-            <h2>Instrucciones</h2>
-            <p>- Da vuelta las fichas para encontrar pares iguales.</p>
-            <p>- Si coinciden, quedan descubiertas.</p>
-            <p>- Si no coinciden, se vuelven a tapar.</p>
-            <p>- Cuando encuentres todos los pares, accederás a la galería de obras.</p>
-        </div>
-        <button id="play-btn" class="btn">Jugar</button>
+<div id="game-screen" class="screen">
+    <div class="timer" id="timer">Tiempo: 40:00</div>
+    <div id="game-board" class="grid"></div>
+</div>
+
+<!-- POPUP flotante -->
+<div id="popup" class="popup">
+    <div class="popup-content">
+        <h2 id="popup-title"></h2>
+        <p id="popup-text"></p>
+
+        <button id="retry-btn" class="btn btn-small">Intentar de nuevo</button>
+        <button id="gallery-btn" class="btn btn-small">Ver Galería</button>
     </div>
+</div>
 
-    <!-- Pantalla del Juego (MEMOTEST nuevo) -->
-    <div id="game-screen" class="screen">
-        <div class="timer" id="timer">Tiempo: 40:00</div>
-        <div id="game-board" class="grid"></div>
-    </div>
+<div id="gallery-screen" class="screen">
+    <h2>Galería de Obras</h2>
+    <div id="gallery" class="gallery"></div>
+</div>
 
-    <!-- Pantalla de Victoria / Derrota -->
-    <div id="win-screen" class="screen"></div>
-
-    <!-- Pantalla Galería -->
-    <div id="gallery-screen" class="screen">
-        <h2>Galería de Obras</h2>
-
-        <div id="gallery-container">
-            <button id="prev" class="arrow-btn">&#10094;</button>
-            <div id="gallery" class="gallery"></div>
-            <button id="next" class="arrow-btn">&#10095;</button>
-        </div>
-    </div>
-
-    <!-- Modal -->
-    <div id="modal">
-      <div id="modal-content">
-        <span id="modal-close">&times;</span>
-        <img id="modal-img" src="">
-        <p id="modal-info"></p>
-      </div>
-    </div>
-
-    <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
