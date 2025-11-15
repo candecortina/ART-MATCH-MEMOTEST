@@ -111,18 +111,30 @@ function flipCard(card, src){
 
 function loseGame(){
   gameScreen.classList.remove("active");
+
   winScreen.innerHTML = `
-    <h2 class="win-msg">¡Se acabó el tiempo! ⏳</h2>
-    <p>No lograste completar el memotest.</p>
+    <div class="result-box">
+      <h2 class="win-msg">¡Se acabó el tiempo! ⏳</h2>
+      <p>No lograste completar el memotest.</p>
+    </div>
+    <button id="retry-btn" class="btn">Intentar de nuevo</button>
   `;
+
   winScreen.classList.add("active");
+
+  document.getElementById("retry-btn").onclick = () => {
+    winScreen.classList.remove("active");
+    instructionsScreen.classList.add("active");
+  };
 }
 
-// ---------- PANTALLA DE VICTORIA ----------
+
 function showWinScreen(){
   winScreen.innerHTML = `
-    <h2 class="win-msg">¡Felicitaciones! 🎉</h2>
-    <p>Completaste el Art Match.</p>
+    <div class="result-box">
+      <h2 class="win-msg">¡Felicitaciones! 🎉</h2>
+      <p>Completaste el Art Match.</p>
+    </div>
     <button id="gallery-btn" class="btn">Ver Galería</button>
   `;
   winScreen.classList.add("active");
@@ -130,12 +142,13 @@ function showWinScreen(){
   document.getElementById("gallery-btn").onclick = showGallery;
 }
 
+
 // ---------- GALERÍA (igual que antes) ----------
 const galleryImages = [
   {img:"lamonalisa.jpg", nombre:"La Mona Lisa", artista:"Leonardo da Vinci", año:1503, desc:"Pintura icónica del Renacimiento."},
   {img:"noche.jpg", nombre:"La Noche Estrellada", artista:"Vincent van Gogh", año:1889, desc:"Vista desde el asilo de Saint-Rémy."},
   {img:"grito.jpg", nombre:"El Grito", artista:"Edvard Munch", año:1893, desc:"Angustia existencial."},
-  {img:"renacimiento_venus.jpg", nombre:"El Renacimiento de Venus", artista:"Sandro Botticelli", año:1486, desc:"Nacimiento de Venus."},
+  {img:"renacimiento_venus.jpg", nombre:"El Nacimiento de Venus", artista:"Sandro Botticelli", año:1486, desc:"Nacimiento de Venus."},
   {img:"perla.jpg", nombre:"La Joven de la Perla", artista:"Johannes Vermeer", año:1665, desc:"La 'Mona Lisa holandesa'."},
   {img:"relojes.jpg", nombre:"La Persistencia de la Memoria", artista:"Salvador Dalí", año:1931, desc:"Relojes derretidos."}
 ];
@@ -172,6 +185,18 @@ function renderGallery(){
     gal.appendChild(box);
   });
 }
+// Botón volver a jugar desde la galería
+const galleryBackBtn = document.createElement("button");
+galleryBackBtn.id = "volver-jugar-btn";
+galleryBackBtn.classList.add("btn");
+galleryBackBtn.textContent = "Volver a jugar";
+
+galleryBackBtn.onclick = () => {
+  galleryScreen.classList.remove("active");
+  instructionsScreen.classList.add("active");
+};
+
+document.getElementById("gallery-screen").appendChild(galleryBackBtn);
 
 document.getElementById("next").onclick = ()=>{
   if(currentIndex +3 < galleryImages.length){
