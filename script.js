@@ -27,7 +27,7 @@ let lockBoard = false;
 let matchedPairs = 0;
 let timeLeft = 50; // <-- 50 segundos
 let timerInterval;
-
+const totalPairs = 6;
 // Función de iniciar el juego
 function startGame(){
     instructionsScreen.classList.remove("active");
@@ -91,40 +91,39 @@ function updatePairsDisplay(){
 }
 
 // FUNCION DE VOLTEAR CARTA
-function flipCard(card, src){
-    if(lockBoard || card.classList.contains("flip") || card.classList.contains("matched")) return;
+if (firstCard.src === src) {
 
-    card.classList.add("flip");
+  // Marcar como encontradas
+  firstCard.card.classList.add("matched");
+  card.classList.add("matched");
 
-    if(!firstCard){
-        firstCard = {card, src};
-        return;
-    }
+  // SUMAR PAR
+  matchedPairs++;
 
-    if(firstCard.src === src){
-        firstCard.card.classList.add("matched");
-        card.classList.add("matched");
-        firstCard = null;
-        matchedPairs++;
-        updatePairsDisplay(); // <-- Actualiza contador
+  // ACTUALIZAR VISUAL
+  updatePairsDisplay();
 
-        if(matchedPairs === images.length/2){
-            clearInterval(timerInterval);
-            setTimeout(()=>{
-                gameScreen.classList.remove("active");
-                showWinScreen();
-            },500);
-        }
-    } else {
-        lockBoard = true;
-        setTimeout(()=>{
-            firstCard.card.classList.remove("flip");
-            card.classList.remove("flip");
-            firstCard = null;
-            lockBoard = false;
-        },900);
-    }
+  firstCard = null;
+
+  // SI GANA
+  if (matchedPairs === images.length / 2) {
+      clearInterval(timerInterval);
+      setTimeout(() => {
+          gameScreen.classList.remove("active");
+          winScreen.classList.add("active");
+      }, 500);
+  }
+
+} else {
+  lockBoard = true;
+  setTimeout(()=>{
+      firstCard.card.classList.remove("flip");
+      card.classList.remove("flip");
+      firstCard = null;
+      lockBoard = false;
+  },900);
 }
+
 
 function flipCard(card, src){
   if(lockBoard || card.classList.contains("flip") || card.classList.contains("matched")) return;
