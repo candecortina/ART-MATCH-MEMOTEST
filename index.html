@@ -1,59 +1,70 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Art Match</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Art Match — Memotest</title>
+
+  <!-- Tipografías -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- Estilos -->
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <main class="site">
+    <header class="header">
+      <div class="brand">
+        <h1 class="brand-title">Art Match</h1>
+        <p class="brand-sub">Memotest · Obras famosas · Estilo museo clásico</p>
+      </div>
+      <div class="controls">
+        <div class="timer" id="timer">40:00</div>
+        <button id="startBtn" class="btn primary">Jugar</button>
+        <button id="resetBtn" class="btn ghost">Reiniciar</button>
+      </div>
+    </header>
 
-    <!-- PANTALLA 1 — Bienvenida -->
-    <section id="welcome-screen" class="screen active">
-        <h1>Art Match Memotest</h1>
-        <button id="start-btn">Comenzar</button>
+    <section class="panel instructions-panel" aria-labelledby="instr-title">
+      <h2 id="instr-title">Instrucciones</h2>
+      <p>Antes de comenzar todas las fichas estarán con el dorso <strong>Art Match</strong>. Hacé click en una ficha para descubrirla. Si encontrás la pareja, las fichas se quedan dadas vuelta. Si no coinciden, no se vuelven a ocultar solas: debés tocarlas nuevamente para darles vuelta. Tenés <strong>40 minutos</strong> para completar todas las parejas.</p>
     </section>
 
-    <!-- PANTALLA 2 — Instrucciones -->
-    <section id="instructions-screen" class="screen">
-        <div class="instructions-box">
-            <h2>Instrucciones</h2>
-            <p>
-                Encontrá todas las parejas de obras de arte.  
-                Tenés 40 minutos.  
-                Si se acaba el tiempo perdés.  
-                Si las encontrás todas, accedés a la galería final.
-            </p>
-        </div>
-        <button id="play-btn">Jugar</button>
+    <section class="panel board-wrap" aria-label="Tablero de juego">
+      <div id="board" class="board" role="grid"></div>
     </section>
 
-    <!-- PANTALLA 3 — Juego -->
-    <section id="game-screen" class="screen">
-        <div class="top-bar">
-            <span id="timer">40:00</span>
-        </div>
-        <div id="game-board"></div>
+    <section id="galleryPanel" class="panel gallery-panel" style="display:none;">
+      <h2>Galería final</h2>
+      <div id="gallery" class="gallery-grid"></div>
+      <div class="center">
+        <button id="backBtn" class="btn ghost">Volver</button>
+      </div>
     </section>
+  </main>
 
-    <!-- PANTALLA 4 — Victoria -->
-    <section id="win-screen" class="screen">
-        <h2>¡Felicitaciones! Ganaste 🎉</h2>
-        <button id="gallery-btn">Ver galería</button>
-    </section>
+  <!-- Modales -->
+  <div id="winModal" class="modal-overlay" style="display:none;">
+    <div class="modal">
+      <h3>¡Felicitaciones! Has ganado</h3>
+      <p>Completaste todas las parejas. Mirá la galería final para leer la historia de cada obra.</p>
+      <div class="modal-actions">
+        <button id="viewGalleryBtn" class="btn primary">Ver galería</button>
+        <button id="closeWinBtn" class="btn ghost">Cerrar</button>
+      </div>
+    </div>
+  </div>
 
-    <!-- PANTALLA 5 — Derrota -->
-    <section id="lose-screen" class="screen">
-        <h2>Tiempo agotado 😢</h2>
-        <button id="retry-btn">Reintentar</button>
-    </section>
+  <div id="loseModal" class="modal-overlay" style="display:none;">
+    <div class="modal">
+      <h3>Se acabó el tiempo</h3>
+      <p>No completaste las parejas. Podés intentarlo de nuevo.</p>
+      <div class="modal-actions">
+        <button id="tryAgainBtn" class="btn primary">Reiniciar</button>
+      </div>
+    </div>
+  </div>
 
-    <!-- PANTALLA 6 — Galería -->
-    <section id="gallery-screen" class="screen">
-        <h2>Galería de Obras</h2>
-        <div id="gallery"></div>
-    </section>
-
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
