@@ -2,71 +2,74 @@ const welcomeScreen = document.getElementById("welcome-screen");
 const instructionsScreen = document.getElementById("instructions-screen");
 const gameScreen = document.getElementById("game-screen");
 const winScreen = document.getElementById("win-screen");
-const loseScreen = document.getElementById("lose-screen");
 const galleryScreen = document.getElementById("gallery-screen");
 
-document.getElementById("start-btn").onclick = ()=>{
+document.getElementById("start-btn").onclick = () => {
   welcomeScreen.classList.remove("active");
   instructionsScreen.classList.add("active");
 };
+
 document.getElementById("play-btn").onclick = startGame;
-document.getElementById("gallery-btn").onclick = showGallery;
-document.getElementById("replay-btn").onclick = startGame;
-document.getElementById("retry-btn").onclick = startGame;
-document.getElementById("replay-gallery-btn").onclick = startGame;
+document.getElementById("gallery-btn")?.addEventListener("click", showGallery);
 
 const images = [
-  "monalisa.jpg", "monalisa.jpg",
-  "lanochestrellada.jpg", "lanochestrellada.jpg",
-  "scream.jpg", "scream.jpg",
-  "laperla.jpg", "laperla.jpg",
-  "persistencia_memoria.jpg", "persistencia_memoria.jpg",
-  "venus.jpg", "venus.jpg"
+  "monalisa.jpg","monalisa.jpg",
+  "lanochestrellada.jpg","lanochestrellada.jpg",
+  "scream.jpg","scream.jpg",
+  "laperla.jpg","laperla.jpg",
+  "persistencia_memoria.jpg","persistencia_memoria.jpg",
+  "venus.jpg","venus.jpg"
 ];
 
 let firstCard = null;
 let lockBoard = false;
 let matchedPairs = 0;
 let pairsFound = 0;
+let timeLeft = 40;
 let timerInterval;
 
 function startGame(){
   instructionsScreen.classList.remove("active");
   gameScreen.classList.add("active");
+
   matchedPairs = 0;
   pairsFound = 0;
-  document.getElementById("pairs-counter").textContent = `Pares encontrados: 0 / 6`;
+  firstCard = null;
+  timeLeft = 40;
+  startTimer();
+
+  document.getElementById("pairs-counter").textContent = `Pares encontrados: ${pairsFound}`;
 
   const board = document.getElementById("game-board");
   board.innerHTML = "";
-  let shuffled = [...images].sort(()=>Math.random()-0.5);
+
+  const shuffled = images.sort(()=>Math.random()-0.5);
 
   shuffled.forEach(src=>{
     const card = document.createElement("div");
     card.classList.add("card");
     card.dataset.src = src;
+
     card.innerHTML = `
       <div class="card-inner">
         <div class="card-face card-back">ART MATCH</div>
         <div class="card-face card-front"><img src="img/${src}"></div>
       </div>
     `;
-    card.addEventListener("click", ()=>flipCard(card));
+
+    card.addEventListener("click", () => flipCard(card));
     board.appendChild(card);
   });
+}
 
-  // Timer 40 segundos
-  let timeLeft = 40;
-  document.getElementById("timer").textContent = `Tiempo: ${timeLeft}s`;
+function startTimer(){
+  const timer = document.getElementById("timer");
   clearInterval(timerInterval);
   timerInterval = setInterval(()=>{
+    const sec = timeLeft;
+    timer.textContent = `Tiempo: ${sec} s`;
+    if(timeLeft<=0){ clearInterval(timerInterval); loseGame(); }
     timeLeft--;
-    document.getElementById("timer").textContent = `Tiempo: ${timeLeft}s`;
-    if(timeLeft <= 0){
-      clearInterval(timerInterval);
-      gameScreen.classList.remove("active");
-      loseScreen.classList.add("active");
-    }
   },1000);
 }
 
@@ -86,13 +89,19 @@ function flipCard(card){
     firstCard = null;
     matchedPairs++;
     pairsFound++;
-    document.getElementById("pairs-counter").textContent = `Pares encontrados: ${pairsFound} / 6`;
+    document.getElementById("pairs-counter").textContent = `Pares encontrados: ${pairsFound}`;
 
     if(matchedPairs === images.length/2){
       clearInterval(timerInterval);
       setTimeout(()=>{
         gameScreen.classList.remove("active");
+        winScreen.innerHTML = `
+          <h2 class="win-msg">¡Felicitaciones! 🎉</h2>
+          <p>Completaste el Art Match.</p>
+          <button id="gallery-btn" class="btn">Ver Galería</button>
+        `;
         winScreen.classList.add("active");
+        document.getElementById("gallery-btn").addEventListener("click", showGallery);
       },500);
     }
   } else {
@@ -106,31 +115,48 @@ function flipCard(card){
   }
 }
 
-// Galería con título, artista y descripción
+function loseGame(){
+  gameScreen.classList.remove("active");
+  winScreen.innerHTML = `
+    <h2 class="win-msg">¡Se acabó el tiempo! ⏳</h2>
+    <p>No lograste completar el memotest.</p>
+  `;
+  winScreen.classList.add("active");
+}
+
 function showGallery(){
   winScreen.classList.remove("active");
   galleryScreen.classList.add("active");
-  const gallery = document.getElementById("gallery");
-  gallery.innerHTML = "";
 
-  const galleryData = [
-    {src:"lamonalisa.jpg", title:"Mona Lisa", artist:"Leonardo da Vinci", desc:"1503-1506. Una de las pinturas más famosas del Renacimiento italiano."},
-    {src:"noche.jpg", title:"La Noche Estrellada", artist:"Vincent van Gogh", desc:"1889. Pintura que refleja el paisaje nocturno desde el asilo de Saint-Rémy."},
-    {src:"grito.jpg", title:"El Grito", artist:"Edvard Munch", desc:"1893. Representa la angustia existencial del ser humano."},
-    {src:"renacimiento_venus.jpg", title:"El nacimiento de Venus", artist:"Sandro Botticelli", desc:"1485. Pintura renacentista que representa a Venus emergiendo del mar."},
-    {src:"perla.jpg", title:"La joven de la perla", artist:"Johannes Vermeer", desc:"1665. Retrato de una joven con un pendiente de perla."},
-    {src:"relojes.jpg", title:"Persistencia de la memoria", artist:"Salvador Dalí", desc:"1931. Representa la relatividad del tiempo con relojes blandos."}
+  const gal = document.getElementById("gallery");
+  gal.innerHTML = "";
+
+  const obras = [
+    {img:"lamonalisa.jpg", nombre:"La Mona Lisa", artista:"Leonardo da Vinci", año:1503, desc:"Pintura icónica del Renacimiento que representa a Lisa Gherardini."},
+    {img:"noche.jpg", nombre:"La Noche Estrellada", artista:"Vincent van Gogh", año:1889, desc:"Obra realizada desde la ventana del asilo de Saint-Rémy."},
+    {img:"grito.jpg", nombre:"El Grito", artista:"Edvard Munch", año:1893, desc:"Expresa la angustia existencial del ser humano."},
+    {img:"renacimiento_venus.jpg", nombre:"El Renacimiento de Venus", artista:"Sandro Botticelli", año:1486, desc:"Representa el nacimiento de Venus de la espuma del mar."},
+    {img:"perla.jpg", nombre:"La Joven de la Perla", artista:"Johannes Vermeer", año:1665, desc:"Conocida como la 'Mona Lisa holandesa'."},
+    {img:"relojes.jpg", nombre:"La Persistencia de la Memoria", artista:"Salvador Dalí", año:1931, desc:"Famosa por sus relojes derretidos, símbolo del tiempo fluido."}
   ];
 
-  galleryData.forEach(item=>{
-    const div = document.createElement("div");
-    div.className = "gallery-item";
-    div.innerHTML = `
-      <img src="img/${item.src}">
-      <h3>${item.title}</h3>
-      <h4>${item.artist}</h4>
-      <p>${item.desc}</p>
-    `;
-    gallery.appendChild(div);
+  obras.forEach(o=>{
+    const box = document.createElement("div");
+    box.classList.add("gallery-item");
+    box.innerHTML = `<img src="img/${o.img}"><p><strong>${o.nombre}</strong><br>${o.artista} (${o.año})<br>${o.desc}</p>`;
+    gal.appendChild(box);
+
+    box.addEventListener("click", ()=>{
+      document.getElementById("modal-img").src = `img/${o.img}`;
+      document.getElementById("modal-info").innerHTML = `<strong>${o.nombre}</strong><br>${o.artista} (${o.año})<br>${o.desc}`;
+      document.getElementById("modal").style.display = "flex";
+    });
   });
+
+  document.getElementById("modal-close").onclick = () => {
+    document.getElementById("modal").style.display = "none";
+  };
+  document.getElementById("modal").onclick = (e) => {
+    if(e.target.id==="modal") document.getElementById("modal").style.display="none";
+  };
 }
