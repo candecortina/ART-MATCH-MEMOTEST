@@ -2,44 +2,70 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Art Match</title>
+    <title>Memotest de Arte</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <!-- Pantalla de Bienvenida -->
-    <div id="welcome-screen" class="screen active">
-        <h1 class="title">ART MATCH</h1>
-        <h2 class="subtitle">Memotest</h2>
-        <button id="start-btn" class="btn">Comenzar</button>
-    </div>
+    <h1 class="titulo">MEMOTEST DEL RENACIMIENTO</h1>
 
-    <!-- Pantalla de Instrucciones -->
-    <div id="instructions-screen" class="screen">
-        <div class="instructions-box">
+    <!-- INSTRUCCIONES -->
+    <div class="instrucciones">
+        <div class="instrucciones-cuadro">
             <h2>Instrucciones</h2>
-            <p>- Da vuelta las fichas para encontrar pares iguales.</p>
-            <p>- Si coinciden, quedan descubiertas.</p>
-            <p>- Si no coinciden, se dan vuelta de nuevo.</p>
-            <p>- Cuando encuentres todos los pares, accederás a la galería de obras.</p>
+            <p>Hacé coincidir las fichas iguales antes de que termine el tiempo.<br>
+            Tenés 40 segundos. ¡Suerte!</p>
         </div>
-        <button id="play-btn" class="btn">Jugar</button>
     </div>
 
-    <!-- Pantalla del Juego -->
-    <div id="game-screen" class="screen">
-        <div id="timer" class="timer"></div>
-        <div id="game-board" class="grid"></div>
+    <!-- CONTENEDOR CENTRADO -->
+    <div class="memotest-container">
+        <div class="info-bar">
+            <span id="timer">40</span>
+        </div>
+
+        <div id="game-board" class="game-board"></div>
     </div>
 
-    <!-- Pantalla de Victoria / Derrota -->
-    <div id="win-screen" class="screen"></div>
+    <!-- FELICITACIONES -->
+    <div id="win-message" class="mensaje oculto">
+        <div class="mensaje-contenido">
+            <h2>¡Felicitaciones!</h2>
+            <p>Completaste el memotest a tiempo.</p>
+            <button onclick="location.reload()">Jugar de nuevo</button>
+        </div>
+    </div>
 
-    <!-- Pantalla Galería -->
-    <div id="gallery-screen" class="screen">
-        <h2>Galería de Obras</h2>
-        <div id="gallery" class="gallery"></div>
+    <!-- DERROTA -->
+    <div id="lose-message" class="mensaje oculto">
+        <div class="mensaje-contenido">
+            <h2>¡Se acabó el tiempo!</h2>
+            <p>Volvé a intentarlo.</p>
+            <button onclick="location.reload()">Reintentar</button>
+        </div>
+    </div>
+
+    <!-- GALERÍA -->
+    <h2 class="galeria-titulo">Galería de Obras</h2>
+
+    <div class="galeria">
+        <div class="item">
+            <img src="renacimiento_venus.jpg">
+            <p>El nacimiento de Venus – Sandro Botticelli</p>
+        </div>
+
+        <!-- Las fichas del memotest ya existentes -->
+        <div class="item">
+            <img src="cuadro.png">
+            <p>Obra Clásica</p>
+        </div>
+
+        <!-- NUEVA OBRA AGREGADA -->
+        <div class="item">
+            <img src="renacimiento_venus.jpg">
+            <p>Detalle adicional de Venus</p>
+        </div>
+
     </div>
 
     <script src="script.js"></script>
