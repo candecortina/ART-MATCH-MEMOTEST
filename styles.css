@@ -64,14 +64,13 @@ body {
     font-size: 18px;
 }
 
-/* Timer */
 .timer {
     font-size: 20px;
     margin-bottom: 15px;
     font-weight: bold;
 }
 
-/* GRID MEMOTEST */
+/* Grid Memotest */
 .grid {
     display: grid;
     grid-template-columns: repeat(4, 140px);
@@ -80,7 +79,6 @@ body {
     margin-top: 20px;
 }
 
-/* Fichas */
 .card {
     width: 140px;
     height: 140px;
@@ -115,8 +113,9 @@ body {
 }
 
 .card-back {
-    border: 3px solid #8d6f54;
     background: none;
+    border: 3px solid #8d6f54;
+    color: #3b2d22;
 }
 
 .card-front img {
@@ -127,49 +126,58 @@ body {
     transform: rotateY(180deg);
 }
 
-.win-msg {
-    font-size: 32px;
-    font-family: 'Playfair Display';
+#pairs-counter {
+    margin-top: 15px;
+    font-size: 18px;
+    font-weight: bold;
 }
 
-/* GALERÍA */
+/* Galería tipo carrusel */
+#gallery-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
 .gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
-  grid-gap: 20px;
-  justify-content: center;
-  margin-top: 20px;
-  width: 90%;
-  max-width: 900px;
+    display: flex;
+    overflow: hidden;
+    width: 80%;
+    justify-content: center;
+    gap: 20px;
 }
 
 .gallery-item {
-  background: #fff;
-  border: 2px solid #8d6f54;
-  border-radius: 12px;
-  padding: 10px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-  text-align: center;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.gallery-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0,0,0,0.25);
+    flex: 0 0 30%;
+    background: #fff;
+    border: 2px solid #8d6f54;
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    text-align: center;
+    cursor: pointer;
 }
 
 .gallery-item img {
-  width: 100%;
-  aspect-ratio: 1/1;
-  object-fit: cover;
-  border-radius: 8px;
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 8px;
 }
 
 .gallery-item p {
-  font-size: 14px;
-  margin-top: 8px;
-  color: #4b3a2f;
+    font-size: 14px;
+    margin-top: 8px;
+    color: #4b3a2f;
+}
+
+.arrow-btn {
+    font-size: 30px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #3b2d22;
 }
 
 /* Modal */

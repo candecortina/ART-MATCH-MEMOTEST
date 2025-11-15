@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -21,7 +21,7 @@
             <h2>Instrucciones</h2>
             <p>- Da vuelta las fichas para encontrar pares iguales.</p>
             <p>- Si coinciden, quedan descubiertas.</p>
-            <p>- Si no coinciden, se dan vuelta de nuevo.</p>
+            <p>- Si no coinciden, se vuelven a dar vuelta.</p>
             <p>- Cuando encuentres todos los pares, accederás a la galería de obras.</p>
         </div>
         <button id="play-btn" class="btn">Jugar</button>
@@ -31,18 +31,23 @@
     <div id="game-screen" class="screen">
         <div id="timer" class="timer"></div>
         <div id="game-board" class="grid"></div>
+        <div id="pairs-counter">Pares encontrados: 0</div>
     </div>
 
-    <!-- Pantalla final (ganar/perder) -->
+    <!-- Pantalla de Victoria / Derrota -->
     <div id="win-screen" class="screen"></div>
 
     <!-- Pantalla Galería -->
     <div id="gallery-screen" class="screen">
         <h2>Galería de Obras</h2>
-        <div id="gallery" class="gallery"></div>
+        <div id="gallery-container">
+            <button id="prev" class="arrow-btn">&#10094;</button>
+            <div id="gallery" class="gallery"></div>
+            <button id="next" class="arrow-btn">&#10095;</button>
+        </div>
     </div>
 
-    <!-- Modal para ampliar imagen -->
+    <!-- Modal para imagen ampliada -->
     <div id="modal">
       <div id="modal-content">
         <span id="modal-close">&times;</span>
