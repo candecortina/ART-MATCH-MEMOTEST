@@ -12,6 +12,7 @@ document.getElementById("start-btn").onclick = () => {
 document.getElementById("play-btn").onclick = startGame;
 document.getElementById("gallery-btn").onclick = showGallery;
 
+// Fichas del memotest
 const images = [
   "monalisa.jpg","monalisa.jpg",
   "lanochestrellada.jpg","lanochestrellada.jpg",
@@ -23,7 +24,7 @@ const images = [
 let firstCard = null;
 let lockBoard = false;
 let matchedPairs = 0;
-let timeLeft = 40 * 60;
+let timeLeft = 40 * 60; // 40 minutos
 let timerInterval;
 
 function startGame() {
@@ -45,6 +46,7 @@ function startGame() {
     const card = document.createElement("div");
     card.classList.add("card");
 
+    // Estructura de la ficha
     card.innerHTML = `
       <div class="card-face card-back">ART MATCH</div>
       <div class="card-face card-front"><img src="img/${src}"></div>
@@ -82,6 +84,7 @@ function flipCard(card, src){
   }
 
   if(firstCard.src === src){
+    // Coinciden → quedan descubiertas
     firstCard.card.classList.add("matched");
     card.classList.add("matched");
     firstCard = null;
@@ -94,6 +97,7 @@ function flipCard(card, src){
       },500);
     }
   } else {
+    // No coinciden → vuelven al dorso
     lockBoard = true;
     setTimeout(()=>{
       firstCard.card.classList.remove("flip");
