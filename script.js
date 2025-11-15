@@ -1,190 +1,72 @@
-const welcomeScreen = document.getElementById("welcome-screen");
-const instructionsScreen = document.getElementById("instructions-screen");
-const gameScreen = document.getElementById("game-screen");
-const winScreen = document.getElementById("win-screen");
-const galleryScreen = document.getElementById("gallery-screen");
+const board = document.getElementById("game-board");
+const timerEl = document.getElementById("timer");
+const winMsg = document.getElementById("win-message");
+const loseMsg = document.getElementById("lose-message");
 
-document.getElementById("start-btn").onclick = () => {
-  welcomeScreen.classList.remove("active");
-  instructionsScreen.classList.add("active");
-};
+let timeLeft = 40;
+let firstCard = null;
+let lock = false;
+let matches = 0;
 
-document.getElementById("play-btn").onclick = startGame;
-
-// ---------- MEMOTEST NUEVO ----------
-const images = [
-  "monalisa.jpg","monalisa.jpg",
-  "lanochestrellada.jpg","lanochestrellada.jpg",
-  "scream.jpg","scream.jpg",
-  "laperla.jpg","laperla.jpg",
-  "persistencia_memoria.jpg","persistencia_memoria.jpg"
+/* FICHAS (incluye las nuevas: venus.jpg) */
+let images = [
+    "cuadro.png",
+    "cuadro.png",
+    "venus.jpg",
+    "venus.jpg"
 ];
 
-let firstCard = null;
-let lockBoard = false;
-let matchedPairs = 0;
-let timeLeft = 40 * 60;
-let timerInterval;
+/* Desordenar */
+images = images.sort(() => Math.random() - 0.5);
 
-function startGame(){
-  instructionsScreen.classList.remove("active");
-  gameScreen.classList.add("active");
-
-  matchedPairs = 0;
-  firstCard = null;
-  timeLeft = 40 * 60;
-  startTimer();
-
-  const board = document.getElementById("game-board");
-  board.innerHTML = "";
-
-  const shuffled = images.sort(() => Math.random() - 0.5);
-
-  shuffled.forEach(src => {
+/* Crear cartas */
+images.forEach(src => {
     const card = document.createElement("div");
     card.classList.add("card");
-
-    card.innerHTML = `
-      <div class="card-inner">
-        <div class="card-face card-back">ART MATCH</div>
-        <div class="card-face card-front"><img src="img/${src}"></div>
-      </div>
-    `;
-
-    card.addEventListener("click", ()=>flipCard(card, src));
+    card.dataset.src = src;
+    card.style.backgroundImage = "url('reverso.png')";
+    card.addEventListener("click", () => reveal(card));
     board.appendChild(card);
-  });
+});
+
+/* Función de revelar */
+function reveal(card) {
+    if (lock || card.classList.contains("matched")) return;
+
+    card.style.backgroundImage = `url('${card.dataset.src}')`;
+
+    if (!firstCard) {
+        firstCard = card;
+    } else {
+        lock = true;
+        if (firstCard.dataset.src === card.dataset.src) {
+            firstCard.classList.add("matched");
+            card.classList.add("matched");
+            matches++;
+            lock = false;
+            firstCard = null;
+
+            if (matches === images.length / 2) {
+                winMsg.classList.remove("oculto");
+            }
+        } else {
+            setTimeout(() => {
+                firstCard.style.backgroundImage = "url('reverso.png')";
+                card.style.backgroundImage = "url('reverso.png')";
+                lock = false;
+                firstCard = null;
+            }, 700);
+        }
+    }
 }
 
-function startTimer(){
-  const timer = document.getElementById("timer");
-  clearInterval(timerInterval);
-  timerInterval = setInterval(()=>{
-    const min = Math.floor(timeLeft / 60);
-    const sec = (timeLeft % 60).toString().padStart(2,"0");
-    timer.textContent = `Tiempo: ${min}:${sec}`;
-
-    if(timeLeft <= 0){
-      clearInterval(timerInterval);
-      loseGame();
-    }
+/* TIMER */
+const countdown = setInterval(() => {
     timeLeft--;
-  },1000);
-}
+    timerEl.textContent = timeLeft;
 
-function flipCard(card, src){
-  if(lockBoard || card.classList.contains("flip") || card.classList.contains("matched")) return;
-
-  card.classList.add("flip");
-
-  if(!firstCard){
-    firstCard = {card, src};
-    return;
-  }
-
-  if(firstCard.src === src){
-    firstCard.card.classList.add("matched");
-    card.classList.add("matched");
-    firstCard = null;
-    matchedPairs++;
-
-    if(matchedPairs === images.length/2){
-      clearInterval(timerInterval);
-      setTimeout(()=>{
-        gameScreen.classList.remove("active");
-        showWinScreen();
-      },500);
+    if (timeLeft <= 0) {
+        clearInterval(countdown);
+        loseMsg.classList.remove("oculto");
     }
-
-  } else {
-    lockBoard = true;
-    setTimeout(()=>{
-      firstCard.card.classList.remove("flip");
-      card.classList.remove("flip");
-      firstCard = null;
-      lockBoard = false;
-    },900);
-  }
-}
-
-function loseGame(){
-  gameScreen.classList.remove("active");
-  winScreen.innerHTML = `
-    <h2 class="win-msg">¡Se acabó el tiempo! ⏳</h2>
-    <p>No lograste completar el memotest.</p>
-  `;
-  winScreen.classList.add("active");
-}
-
-// ---------- PANTALLA DE VICTORIA ----------
-function showWinScreen(){
-  winScreen.innerHTML = `
-    <h2 class="win-msg">¡Felicitaciones! 🎉</h2>
-    <p>Completaste el Art Match.</p>
-    <button id="gallery-btn" class="btn">Ver Galería</button>
-  `;
-  winScreen.classList.add("active");
-
-  document.getElementById("gallery-btn").onclick = showGallery;
-}
-
-// ---------- GALERÍA (igual que antes) ----------
-const galleryImages = [
-  {img:"lamonalisa.jpg", nombre:"La Mona Lisa", artista:"Leonardo da Vinci", año:1503, desc:"Pintura icónica del Renacimiento."},
-  {img:"noche.jpg", nombre:"La Noche Estrellada", artista:"Vincent van Gogh", año:1889, desc:"Vista desde el asilo de Saint-Rémy."},
-  {img:"grito.jpg", nombre:"El Grito", artista:"Edvard Munch", año:1893, desc:"Angustia existencial."},
-  {img:"renacimiento_venus.jpg", nombre:"El Renacimiento de Venus", artista:"Sandro Botticelli", año:1486, desc:"Nacimiento de Venus."},
-  {img:"perla.jpg", nombre:"La Joven de la Perla", artista:"Johannes Vermeer", año:1665, desc:"La 'Mona Lisa holandesa'."},
-  {img:"relojes.jpg", nombre:"La Persistencia de la Memoria", artista:"Salvador Dalí", año:1931, desc:"Relojes derretidos."}
-];
-
-let currentIndex = 0;
-
-function showGallery(){
-  winScreen.classList.remove("active");
-  galleryScreen.classList.add("active");
-  renderGallery();
-}
-
-function renderGallery(){
-  const gal = document.getElementById("gallery");
-  gal.innerHTML = "";
-  const slice = galleryImages.slice(currentIndex, currentIndex+3);
-
-  slice.forEach(o=>{
-    const box = document.createElement("div");
-    box.classList.add("gallery-item");
-
-    box.innerHTML = `
-      <img src="img/${o.img}">
-      <p><strong>${o.nombre}</strong><br>${o.artista} (${o.año})<br>${o.desc}</p>
-    `;
-
-    box.addEventListener("click", ()=>{
-      document.getElementById("modal-img").src = `img/${o.img}`;
-      document.getElementById("modal-info").innerHTML =
-        `<strong>${o.nombre}</strong><br>${o.artista} (${o.año})<br>${o.desc}`;
-      document.getElementById("modal").style.display = "flex";
-    });
-
-    gal.appendChild(box);
-  });
-}
-
-document.getElementById("next").onclick = ()=>{
-  if(currentIndex +3 < galleryImages.length){
-    currentIndex +=3;
-    renderGallery();
-  }
-};
-
-document.getElementById("prev").onclick = ()=>{
-  if(currentIndex -3 >=0){
-    currentIndex -=3;
-    renderGallery();
-  }
-};
-
-// Modal
-document.getElementById("modal-close").onclick = ()=>document.getElementById("modal").style.display="none";
-document.getElementById("modal").onclick = (e)=>{ if(e.target.id==="modal") document.getElementById("modal").style.display="none"; };
+}, 1000);
