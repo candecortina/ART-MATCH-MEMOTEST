@@ -43,19 +43,24 @@ body {
 
 .btn:hover { background-color: #7b6047; }
 
-/* Instrucciones con cuadro.png y vertical */
+/* Instrucciones con cuadro.png y cuadro blanco adentro */
 .instructions-box {
   background: url('img/cuadro.png') no-repeat center center;
   background-size: contain;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding: 50px 30px;
-  margin: auto;
-  font-size: 18px;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
   width: 80%;
-  min-height: 300px;
+  margin: auto;
+}
+
+.instructions-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: left;
+  font-size: 18px;
 }
 
 /* Memotest */
@@ -64,16 +69,16 @@ body {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(4, 140px);
-  grid-template-rows: repeat(3, 140px);
+  grid-template-columns: repeat(4, 160px);
+  grid-template-rows: repeat(3, 160px);
   grid-gap: 12px;
   justify-content: center;
   margin-top: 20px;
 }
 
 .card {
-  width: 140px;
-  height: 140px;
+  width: 160px;
+  height: 160px;
   perspective: 1000px;
   cursor: pointer;
 }
@@ -82,7 +87,6 @@ body {
   position: relative;
   width: 100%;
   height: 100%;
-  text-align: center;
   transition: transform 0.5s;
   transform-style: preserve-3d;
 }
@@ -99,14 +103,11 @@ body {
   align-items: center;
   font-family: 'Playfair Display', serif;
   font-size: 18px;
-  border: 5px solid gold;
+  border: 5px solid #8d6f54; /* borde marrón */
   border-radius: 6px;
 }
 
-.card-back {
-  background: none;
-  color: #3b2d22;
-}
+.card-back { background: none; color: #3b2d22; }
 
 .card-front img {
   width: 100%;
@@ -116,7 +117,7 @@ body {
   transform: rotateY(180deg);
 }
 
-/* Carteles Victoria / Derrota con marco dorado */
+/* Carteles Victoria / Derrota con marco marrón */
 .end-msg {
   display: inline-block;
   padding: 40px 60px;
@@ -124,83 +125,36 @@ body {
   font-size: 32px;
   color: #3b2d22;
   text-align: center;
-  border: 10px solid gold;
+  border: 10px solid #8d6f54; /* recuadro marrón */
   border-radius: 12px;
-  box-shadow: 0 0 20px #d4af37;
+  box-shadow: 0 0 20px #5a3d2e;
   background-color: #fff8f0;
 }
 
-/* Galería tipo museo */
-#gallery-container {
+/* Galería tipo museo con recuadro y descripción */
+#gallery {
   display: flex;
-  align-items: center;
+  flex-wrap: wrap;
   justify-content: center;
+  gap: 20px;
   margin-top: 20px;
 }
 
-.arrow-btn {
-  font-size: 40px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #4b3a2f;
-}
-
-.gallery {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  overflow: hidden;
-  width: 70%;
-}
-
-.gallery img {
-  width: 250px;
-  height: 250px;
-  object-fit: cover;
+.gallery-item {
+  width: 300px;
+  background-color: #fff8f0;
   border: 5px solid #8d6f54;
   border-radius: 10px;
-  cursor: pointer;
-}
-
-/* Modal para galería */
-#gallery-modal {
-  display: none;
-  position: fixed;
-  z-index: 1000;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  background-color: rgba(0,0,0,0.8);
-  justify-content: center;
-  align-items: center;
-}
-
-#gallery-modal-content {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  max-width: 90%;
-  max-height: 90%;
-  overflow-y: auto;
+  padding: 10px;
   text-align: center;
 }
 
-#gallery-modal img {
-  max-width: 100%;
+.gallery-item img {
+  width: 100%;
   height: auto;
-  border: 5px solid #8d6f54;
-  border-radius: 10px;
-  margin-bottom: 15px;
+  border-radius: 6px;
+  margin-bottom: 10px;
 }
 
-#gallery-modal .close-btn {
-  margin-top: 10px;
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: #8d6f54;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
+.gallery-item h3 { margin: 5px 0; font-family: 'Playfair Display', serif; }
+.gallery-item p { font-size: 16px; }

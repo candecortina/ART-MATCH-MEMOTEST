@@ -1,62 +1,45 @@
 const welcomeScreen = document.getElementById("welcome-screen");
 const instructionsScreen = document.getElementById("instructions-screen");
 const gameScreen = document.getElementById("game-screen");
-const endScreen = document.getElementById("end-screen");
+const winScreen = document.getElementById("win-screen");
+const loseScreen = document.getElementById("lose-screen");
 const galleryScreen = document.getElementById("gallery-screen");
-const playAgainBtn = document.getElementById("play-again-btn");
 
 document.getElementById("start-btn").onclick = ()=>{
   welcomeScreen.classList.remove("active");
   instructionsScreen.classList.add("active");
 };
-
 document.getElementById("play-btn").onclick = startGame;
-if(playAgainBtn) playAgainBtn.onclick = startGame;
+document.getElementById("gallery-btn").onclick = showGallery;
+document.getElementById("replay-btn").onclick = startGame;
+document.getElementById("retry-btn").onclick = startGame;
+document.getElementById("replay-gallery-btn").onclick = startGame;
 
 const images = [
-  "monalisa.jpg","monalisa.jpg",
-  "lanochestrellada.jpg","lanochestrellada.jpg",
-  "scream.jpg","scream.jpg",
-  "laperla.jpg","laperla.jpg",
-  "persistencia_memoria.jpg","persistencia_memoria.jpg",
-  "venus.jpg","venus.jpg"
+  "monalisa.jpg", "monalisa.jpg",
+  "lanochestrellada.jpg", "lanochestrellada.jpg",
+  "scream.jpg", "scream.jpg",
+  "laperla.jpg", "laperla.jpg",
+  "persistencia_memoria.jpg", "persistencia_memoria.jpg",
+  "venus.jpg", "venus.jpg"
 ];
 
 let firstCard = null;
 let lockBoard = false;
 let matchedPairs = 0;
 let pairsFound = 0;
-let timeLeft = 40;
 let timerInterval;
-
-// Galería
-const galleryImages = [
-  {src:"lamonalisa.jpg", info:"Mona Lisa - Leonardo da Vinci, 1503-1506, Retrato icónico del Renacimiento."},
-  {src:"noche.jpg", info:"La Noche Estrellada - Vincent van Gogh, 1889, Pintura postimpresionista."},
-  {src:"grito.jpg", info:"El Grito - Edvard Munch, 1893, Representa ansiedad y angustia."},
-  {src:"renacimiento_venus.jpg", info:"El Nacimiento de Venus - Sandro Botticelli, 1486, Mitología y belleza renacentista."},
-  {src:"perla.jpg", info:"La Joven de la Perla - Johannes Vermeer, 1665, Retrato famoso de juventud y misterio."},
-  {src:"relojes.jpg", info:"Persistencia de la Memoria - Salvador Dalí, 1931, Obra surrealista sobre el tiempo."}
-];
-let galleryIndex = 0;
 
 function startGame(){
   instructionsScreen.classList.remove("active");
   gameScreen.classList.add("active");
-  galleryScreen.classList.remove("active");
-  endScreen.classList.remove("active");
-
   matchedPairs = 0;
   pairsFound = 0;
-  firstCard = null;
-  timeLeft = 40;
-  startTimer();
-  document.getElementById("pairs-counter").textContent = `Pares encontrados: ${pairsFound} / 6`;
+  document.getElementById("pairs-counter").textContent = `Pares encontrados: 0 / 6`;
 
   const board = document.getElementById("game-board");
   board.innerHTML = "";
-
-  const shuffled = images.sort(()=>Math.random()-0.5);
+  let shuffled = [...images].sort(()=>Math.random()-0.5);
 
   shuffled.forEach(src=>{
     const card = document.createElement("div");
@@ -71,16 +54,19 @@ function startGame(){
     card.addEventListener("click", ()=>flipCard(card));
     board.appendChild(card);
   });
-}
 
-function startTimer(){
-  const timer = document.getElementById("timer");
+  // Timer 40 segundos
+  let timeLeft = 40;
+  document.getElementById("timer").textContent = `Tiempo: ${timeLeft}s`;
   clearInterval(timerInterval);
-  timer.textContent = `Tiempo: ${timeLeft}s`;
   timerInterval = setInterval(()=>{
     timeLeft--;
-    timer.textContent = `Tiempo: ${timeLeft}s`;
-    if(timeLeft<=0){ clearInterval(timerInterval); loseGame(); }
+    document.getElementById("timer").textContent = `Tiempo: ${timeLeft}s`;
+    if(timeLeft <= 0){
+      clearInterval(timerInterval);
+      gameScreen.classList.remove("active");
+      loseScreen.classList.add("active");
+    }
   },1000);
 }
 
@@ -104,7 +90,10 @@ function flipCard(card){
 
     if(matchedPairs === images.length/2){
       clearInterval(timerInterval);
-      setTimeout(showWinScreen,500);
+      setTimeout(()=>{
+        gameScreen.classList.remove("active");
+        winScreen.classList.add("active");
+      },500);
     }
   } else {
     lockBoard = true;
@@ -117,71 +106,31 @@ function flipCard(card){
   }
 }
 
-function loseGame(){
-  gameScreen.classList.remove("active");
-  endScreen.innerHTML = `
-    <div class="end-msg">
-      <h2>¡Se acabó el tiempo! ⏳</h2>
-      <p>No lograste completar el memotest.</p>
-      <button id="try-again-btn" class="btn">Intentar de nuevo</button>
-    </div>
-  `;
-  endScreen.classList.add("active");
-  document.getElementById("try-again-btn").onclick = startGame;
-}
-
-function showWinScreen(){
-  gameScreen.classList.remove("active");
-  endScreen.innerHTML = `
-    <div class="end-msg">
-      <h2>¡Felicitaciones! 🎉</h2>
-      <p>Completaste el Art Match.</p>
-      <button id="gallery-btn" class="btn">Ver Galería</button>
-    </div>
-  `;
-  endScreen.classList.add("active");
-  document.getElementById("gallery-btn").onclick = ()=> {
-    endScreen.classList.remove("active");
-    showGallery(0);
-    galleryScreen.classList.add("active");
-  };
-}
-
-// Galería
-function showGallery(index){
-  galleryIndex = index;
+// Galería con título, artista y descripción
+function showGallery(){
+  winScreen.classList.remove("active");
+  galleryScreen.classList.add("active");
   const gallery = document.getElementById("gallery");
   gallery.innerHTML = "";
-  for(let i=index;i<index+3 && i<galleryImages.length;i++){
-    const g = galleryImages[i];
-    const img = document.createElement("img");
-    img.src = `img/${g.src}`;
-    img.alt = g.info;
-    img.title = g.info;
-    gallery.appendChild(img);
-  }
+
+  const galleryData = [
+    {src:"lamonalisa.jpg", title:"Mona Lisa", artist:"Leonardo da Vinci", desc:"1503-1506. Una de las pinturas más famosas del Renacimiento italiano."},
+    {src:"noche.jpg", title:"La Noche Estrellada", artist:"Vincent van Gogh", desc:"1889. Pintura que refleja el paisaje nocturno desde el asilo de Saint-Rémy."},
+    {src:"grito.jpg", title:"El Grito", artist:"Edvard Munch", desc:"1893. Representa la angustia existencial del ser humano."},
+    {src:"renacimiento_venus.jpg", title:"El nacimiento de Venus", artist:"Sandro Botticelli", desc:"1485. Pintura renacentista que representa a Venus emergiendo del mar."},
+    {src:"perla.jpg", title:"La joven de la perla", artist:"Johannes Vermeer", desc:"1665. Retrato de una joven con un pendiente de perla."},
+    {src:"relojes.jpg", title:"Persistencia de la memoria", artist:"Salvador Dalí", desc:"1931. Representa la relatividad del tiempo con relojes blandos."}
+  ];
+
+  galleryData.forEach(item=>{
+    const div = document.createElement("div");
+    div.className = "gallery-item";
+    div.innerHTML = `
+      <img src="img/${item.src}">
+      <h3>${item.title}</h3>
+      <h4>${item.artist}</h4>
+      <p>${item.desc}</p>
+    `;
+    gallery.appendChild(div);
+  });
 }
-
-document.getElementById("prev").onclick = ()=>{
-  if(galleryIndex>0) { galleryIndex-=3; showGallery(galleryIndex); }
-};
-document.getElementById("next").onclick = ()=>{
-  if(galleryIndex+3<galleryImages.length) { galleryIndex+=3; showGallery(galleryIndex); }
-};
-
-// Modal galería
-const modal = document.getElementById("gallery-modal");
-const modalImg = document.getElementById("modal-img");
-const modalInfo = document.getElementById("modal-info");
-const closeModalBtn = modal.querySelector(".close-btn");
-
-document.getElementById("gallery").addEventListener("click", (e)=>{
-  if(e.target.tagName === "IMG"){
-    modalImg.src = e.target.src;
-    modalInfo.textContent = e.target.title;
-    modal.style.display = "flex";
-  }
-});
-
-closeModalBtn.onclick = ()=>{ modal.style.display = "none"; };
-modal.onclick = (e)=>{ if(e.target===modal) modal.style.display="none"; };
