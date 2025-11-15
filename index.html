@@ -8,53 +8,50 @@
 </head>
 <body>
 
-<!-- Pantalla de Bienvenida -->
+<!-- Bienvenida -->
 <div id="welcome-screen" class="screen active">
   <h1 class="title">ART MATCH</h1>
   <h2 class="subtitle">Memotest</h2>
   <button id="start-btn" class="btn">Comenzar</button>
 </div>
 
-<!-- Pantalla de Instrucciones -->
+<!-- Instrucciones -->
 <div id="instructions-screen" class="screen">
   <div class="instructions-box">
     <h2>Instrucciones</h2>
     <p>- Da vuelta las fichas para encontrar pares iguales.</p>
     <p>- Si coinciden, quedan descubiertas.</p>
     <p>- Si no coinciden, se vuelven a dar vuelta.</p>
-    <p>- Cuando encuentres todos los pares, accederás a la galería de obras.</p>
+    <p>- Encuentra todas las parejas para ver la galería de obras.</p>
   </div>
   <button id="play-btn" class="btn">Jugar</button>
 </div>
 
-<!-- Pantalla del Juego -->
+<!-- Juego -->
 <div id="game-screen" class="screen">
-  <div id="timer" class="timer"></div>
-  <div id="pairs-counter" class="pairs-counter">Pares encontrados: 0 / 6</div>
+  <div class="timer" id="timer">Tiempo: 40s</div>
+  <div class="pairs-counter" id="pairs-counter">Pares encontrados: 0 / 6</div>
   <div id="game-board" class="grid"></div>
 </div>
 
-<!-- Pantalla de Victoria / Derrota -->
-<div id="end-screen" class="screen"></div>
-
-<!-- Pantalla Galería -->
-<div id="gallery-screen" class="screen">
-  <h2>Galería de Obras</h2>
-  <div id="gallery-container">
-    <button id="prev" class="arrow-btn">&#10094;</button>
-    <div id="gallery" class="gallery"></div>
-    <button id="next" class="arrow-btn">&#10095;</button>
-  </div>
-  <button id="play-again-btn" class="btn">Volver a jugar</button>
+<!-- Victoria -->
+<div id="win-screen" class="screen">
+  <div class="end-msg">¡Felicitaciones! 🎉</div>
+  <button id="gallery-btn" class="btn">Ver Galería</button>
+  <button id="replay-btn" class="btn">Volver a jugar</button>
 </div>
 
-<!-- Modal para imagen ampliada -->
-<div id="modal">
-  <div id="modal-content">
-    <span id="modal-close">&times;</span>
-    <img id="modal-img" src="">
-    <p id="modal-info"></p>
-  </div>
+<!-- Derrota -->
+<div id="lose-screen" class="screen">
+  <div class="end-msg">¡Se acabó el tiempo! ⏳</div>
+  <button id="retry-btn" class="btn">Intentar de nuevo</button>
+</div>
+
+<!-- Galería -->
+<div id="gallery-screen" class="screen">
+  <h2>Galería de Obras</h2>
+  <div id="gallery" class="gallery"></div>
+  <button id="replay-gallery-btn" class="btn">Volver a jugar</button>
 </div>
 
 <script src="script.js"></script>
