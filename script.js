@@ -11,7 +11,7 @@ document.getElementById("start-btn").onclick = () => {
 
 document.getElementById("play-btn").onclick = startGame;
 
-// ---------- MEMOTEST NUEVO ----------
+// ---------- MEMOTEST ----------
 const images = [
   "monalisa.jpg","monalisa.jpg",
   "lanochestrellada.jpg","lanochestrellada.jpg",
@@ -21,21 +21,20 @@ const images = [
   "venus.jpg","venus.jpg"
 ];
 
-// VARIABLES DE MEMOTEST
+// VARIABLES
 let firstCard = null;
 let lockBoard = false;
 let matchedPairs = 0;
-let timeLeft = 50; // <-- 50 segundos
+let timeLeft = 50;
 let timerInterval;
-const totalPairs = 6;
-// Función de iniciar el juego
+
 function startGame(){
     instructionsScreen.classList.remove("active");
     gameScreen.classList.add("active");
 
     matchedPairs = 0;
     firstCard = null;
-    timeLeft = 50; // 50 segundos
+    timeLeft = 50;
     updatePairsDisplay();
     startTimer();
 
@@ -68,7 +67,6 @@ function startTimer(){
     timerInterval = setInterval(()=>{
         timer.textContent = `Tiempo: ${timeLeft}s`;
 
-        // Últimos segundos en rojo
         if(timeLeft <= 10){
             timer.style.color = "red";
         } else {
@@ -84,47 +82,13 @@ function startTimer(){
     },1000);
 }
 
-// FUNCION PARA ACTUALIZAR PARES EN PANTALLA
+// ACTUALIZADOR DE PARES
 function updatePairsDisplay(){
     const pairsEl = document.getElementById("pairs");
     pairsEl.textContent = `Pares encontrados: ${matchedPairs}/${images.length/2}`;
 }
 
-// FUNCION DE VOLTEAR CARTA
-if (firstCard.src === src) {
-
-  // Marcar como encontradas
-  firstCard.card.classList.add("matched");
-  card.classList.add("matched");
-
-  // SUMAR PAR
-  matchedPairs++;
-
-  // ACTUALIZAR VISUAL
-  updatePairsDisplay();
-
-  firstCard = null;
-
-  // SI GANA
-  if (matchedPairs === images.length / 2) {
-      clearInterval(timerInterval);
-      setTimeout(() => {
-          gameScreen.classList.remove("active");
-          winScreen.classList.add("active");
-      }, 500);
-  }
-
-} else {
-  lockBoard = true;
-  setTimeout(()=>{
-      firstCard.card.classList.remove("flip");
-      card.classList.remove("flip");
-      firstCard = null;
-      lockBoard = false;
-  },900);
-}
-
-
+// VOLTEAR CARTA (FUNCION PRINCIPAL CORRECTA)
 function flipCard(card, src){
   if(lockBoard || card.classList.contains("flip") || card.classList.contains("matched")) return;
 
@@ -138,8 +102,11 @@ function flipCard(card, src){
   if(firstCard.src === src){
     firstCard.card.classList.add("matched");
     card.classList.add("matched");
-    firstCard = null;
     matchedPairs++;
+
+    updatePairsDisplay();
+
+    firstCard = null;
 
     if(matchedPairs === images.length/2){
       clearInterval(timerInterval);
@@ -160,6 +127,7 @@ function flipCard(card, src){
   }
 }
 
+// PANTALLA DE PERDER
 function loseGame(){
   gameScreen.classList.remove("active");
 
@@ -179,7 +147,7 @@ function loseGame(){
   };
 }
 
-
+// PANTALLA DE GANAR
 function showWinScreen(){
   winScreen.innerHTML = `
     <div class="result-box">
@@ -193,8 +161,7 @@ function showWinScreen(){
   document.getElementById("gallery-btn").onclick = showGallery;
 }
 
-
-// ---------- GALERÍA (igual que antes) ----------
+// ---------- GALERÍA ----------
 const galleryImages = [
   {img:"lamonalisa.jpg", nombre:"La Mona Lisa", artista:"Leonardo da Vinci", año:1503, desc:"Pintura icónica del Renacimiento."},
   {img:"noche.jpg", nombre:"La Noche Estrellada", artista:"Vincent van Gogh", año:1889, desc:"Vista desde el asilo de Saint-Rémy."},
@@ -236,7 +203,7 @@ function renderGallery(){
     gal.appendChild(box);
   });
 }
-// Botón volver a jugar desde la galería
+
 const galleryBackBtn = document.createElement("button");
 galleryBackBtn.id = "volver-jugar-btn";
 galleryBackBtn.classList.add("btn");
@@ -263,6 +230,5 @@ document.getElementById("prev").onclick = ()=>{
   }
 };
 
-// Modal
 document.getElementById("modal-close").onclick = ()=>document.getElementById("modal").style.display="none";
 document.getElementById("modal").onclick = (e)=>{ if(e.target.id==="modal") document.getElementById("modal").style.display="none"; };
