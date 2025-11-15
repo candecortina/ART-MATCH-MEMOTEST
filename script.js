@@ -29,6 +29,17 @@ let pairsFound = 0;
 let timeLeft = 40;
 let timerInterval;
 
+// Galería
+const galleryImages = [
+  {src:"lamonalisa.jpg", info:"Mona Lisa - Leonardo da Vinci, 1503-1506, Retrato icónico del Renacimiento."},
+  {src:"noche.jpg", info:"La Noche Estrellada - Vincent van Gogh, 1889, Pintura postimpresionista."},
+  {src:"grito.jpg", info:"El Grito - Edvard Munch, 1893, Representa ansiedad y angustia."},
+  {src:"renacimiento_venus.jpg", info:"El Nacimiento de Venus - Sandro Botticelli, 1486, Mitología y belleza renacentista."},
+  {src:"perla.jpg", info:"La Joven de la Perla - Johannes Vermeer, 1665, Retrato famoso de juventud y misterio."},
+  {src:"relojes.jpg", info:"Persistencia de la Memoria - Salvador Dalí, 1931, Obra surrealista sobre el tiempo."}
+];
+let galleryIndex = 0;
+
 function startGame(){
   instructionsScreen.classList.remove("active");
   gameScreen.classList.add("active");
@@ -129,7 +140,48 @@ function showWinScreen(){
     </div>
   `;
   endScreen.classList.add("active");
-  document.getElementById("gallery-btn").addEventListener("click", showGallery);
+  document.getElementById("gallery-btn").onclick = ()=> {
+    endScreen.classList.remove("active");
+    showGallery(0);
+    galleryScreen.classList.add("active");
+  };
 }
 
-// Galería y modal se mantienen igual que antes
+// Galería
+function showGallery(index){
+  galleryIndex = index;
+  const gallery = document.getElementById("gallery");
+  gallery.innerHTML = "";
+  for(let i=index;i<index+3 && i<galleryImages.length;i++){
+    const g = galleryImages[i];
+    const img = document.createElement("img");
+    img.src = `img/${g.src}`;
+    img.alt = g.info;
+    img.title = g.info;
+    gallery.appendChild(img);
+  }
+}
+
+document.getElementById("prev").onclick = ()=>{
+  if(galleryIndex>0) { galleryIndex-=3; showGallery(galleryIndex); }
+};
+document.getElementById("next").onclick = ()=>{
+  if(galleryIndex+3<galleryImages.length) { galleryIndex+=3; showGallery(galleryIndex); }
+};
+
+// Modal galería
+const modal = document.getElementById("gallery-modal");
+const modalImg = document.getElementById("modal-img");
+const modalInfo = document.getElementById("modal-info");
+const closeModalBtn = modal.querySelector(".close-btn");
+
+document.getElementById("gallery").addEventListener("click", (e)=>{
+  if(e.target.tagName === "IMG"){
+    modalImg.src = e.target.src;
+    modalInfo.textContent = e.target.title;
+    modal.style.display = "flex";
+  }
+});
+
+closeModalBtn.onclick = ()=>{ modal.style.display = "none"; };
+modal.onclick = (e)=>{ if(e.target===modal) modal.style.display="none"; };
