@@ -12,7 +12,6 @@ document.getElementById("start-btn").onclick = () => {
 document.getElementById("play-btn").onclick = startGame;
 document.getElementById("gallery-btn").onclick = showGallery;
 
-// Imágenes exactas
 const images = [
   "monalisa.jpg","monalisa.jpg",
   "lanochestrellada.jpg","lanochestrellada.jpg",
@@ -50,8 +49,7 @@ function startGame(){
         <div class="card-face card-front"><img src="img/${src}"></div>
       </div>
     `;
-    const inner = card.querySelector(".card-inner");
-    card.addEventListener("click", () => flipCard(card, inner, src));
+    card.addEventListener("click", ()=>flipCard(card, src));
     board.appendChild(card);
   });
 }
@@ -63,26 +61,20 @@ function startTimer(){
     const min = Math.floor(timeLeft/60);
     const sec = timeLeft%60;
     timer.textContent = `Tiempo: ${min}:${sec.toString().padStart(2,"0")}`;
-    if(timeLeft<=0){
-      clearInterval(timerInterval);
-      loseGame();
-    }
+    if(timeLeft<=0){ clearInterval(timerInterval); loseGame(); }
     timeLeft--;
   },1000);
 }
 
-function flipCard(card, inner, src){
-  if(lockBoard || inner.classList.contains("flip") || card.classList.contains("matched")) return;
-
-  // Gira la ficha
-  inner.classList.add("flip");
+function flipCard(card, src){
+  if(lockBoard || card.classList.contains("flip") || card.classList.contains("matched")) return;
+  card.classList.add("flip");
 
   if(!firstCard){
-    firstCard = {card, inner, src};
+    firstCard = {card, src};
     return;
   }
 
-  // Coincidencia
   if(firstCard.src === src){
     firstCard.card.classList.add("matched");
     card.classList.add("matched");
@@ -96,11 +88,10 @@ function flipCard(card, inner, src){
       },500);
     }
   } else {
-    // No coincide, vuelve al dorso
     lockBoard = true;
     setTimeout(()=>{
-      firstCard.inner.classList.remove("flip");
-      inner.classList.remove("flip");
+      firstCard.card.classList.remove("flip");
+      card.classList.remove("flip");
       firstCard = null;
       lockBoard = false;
     },900);
