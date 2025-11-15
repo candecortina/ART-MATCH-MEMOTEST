@@ -1,171 +1,193 @@
-const welcome = document.getElementById("welcome-screen");
-const instructions = document.getElementById("instructions-screen");
-const game = document.getElementById("game-screen");
-const win = document.getElementById("win-screen");
-const lose = document.getElementById("lose-screen");
-const gallery = document.getElementById("gallery-screen");
-
-document.getElementById("continue-btn").onclick = () => show(instructions);
-document.getElementById("start-btn").onclick = startGame;
-document.getElementById("gallery-btn").onclick = () => show(gallery);
-document.getElementById("restart-btn").onclick = () => location.reload();
-
+// --- OBRAS ---
 const works = [
     {
         name: "Monalisa",
         artist: "Leonardo da Vinci",
         year: "1503",
-        img: "img/monalisa.jpg",
-        description: "Una obra icónica del Renacimiento italiano..."
+        desc: "Una de las pinturas más famosas del mundo, conocida por su misteriosa sonrisa.",
+        img: "img/monalisa.jpg"
     },
     {
         name: "El Grito",
         artist: "Edvard Munch",
         year: "1893",
-        img: "img/scream.jpg",
-        description: "Representa la angustia humana en un paisaje expresionista."
+        desc: "Representa la ansiedad existencial humana con un estilo expresionista.",
+        img: "img/scream.jpg"
     },
     {
         name: "La Noche Estrellada",
         artist: "Vincent van Gogh",
         year: "1889",
-        img: "img/lanochestrellada.jpg",
-        description: "Una vista nocturna desde la habitación del artista en Saint-Rémy."
+        desc: "Una vista onírica del cielo sobre Saint-Rémy, una de las obras más icónicas del artista.",
+        img: "img/lanochestrellada.jpg"
     },
     {
         name: "La Joven de la Perla",
         artist: "Johannes Vermeer",
         year: "1665",
-        img: "img/laperla.jpg",
-        description: "Conocida como la Mona Lisa del norte, famosa por su luz y misterio."
+        desc: "Retrato enigmático también conocido como 'La Mona Lisa holandesa'.",
+        img: "img/laperla.jpg"
     },
     {
         name: "La Persistencia de la Memoria",
         artist: "Salvador Dalí",
         year: "1931",
-        img: "img/persistencia_memoria.jpg",
-        description: "Famoso por sus relojes derretidos, representación del tiempo surrealista."
+        desc: "Obra surrealista famosa por sus relojes derretidos.",
+        img: "img/persistencia_memoria.jpg"
     }
 ];
 
-let cardArray = [...works, ...works]; // duplicar para memotest
-let lock = false;
-let firstCard, secondCard;
-let matches = 0;
-let timer;
-let timeLeft = 40 * 60; // 40 minutos
+// Pantallas
+const welcomeScreen = document.getElementById("welcome-screen");
+const instructionsScreen = document.getElementById("instructions-screen");
+const gameScreen = document.getElementById("game-screen");
+const winScreen = document.getElementById("win-screen");
+const loseScreen = document.getElementById("lose-screen");
+const galleryScreen = document.getElementById("gallery-screen");
 
-function show(screen) {
+// Botones
+document.getElementById("continue-btn").onclick = () => switchTo(instructionsScreen);
+document.getElementById("start-btn").onclick = startGame;
+document.getElementById("gallery-btn").onclick = showGallery;
+document.getElementById("restart-btn").onclick = () => location.reload();
+
+function switchTo(screen) {
     document.querySelectorAll(".screen").forEach(s => s.classList.remove("visible"));
     screen.classList.add("visible");
 }
 
+// --- JUEGO ---
+let firstCard = null;
+let secondCard = null;
+let lock = false;
+let timerInterval;
+let remainingPairs = works.length;
+
+const board = document.getElementById("game-board");
+
 function startGame() {
-    show(game);
-    loadBoard();
-    startTimer();
+    switchTo(gameScreen);
+    createBoard();
+    startTimer(40 * 60);
 }
 
-function loadBoard() {
-    cardArray.sort(() => Math.random() - 0.5);
-    const board = document.getElementById("game-board");
+function createBoard() {
+    const cards = [...works, ...works]; 
+    cards.sort(() => Math.random() - 0.5);
+
     board.innerHTML = "";
 
-    cardArray.forEach(work => {
+    cards.forEach((work, index) => {
         const card = document.createElement("div");
         card.classList.add("card");
         card.dataset.name = work.name;
 
         card.innerHTML = `
-            <div class="front"><img src="${work.img}"></div>
-            <div class="back"></div>
+            <div class="card-inner">
+                <div class="front">
+                    <img src="${work.img}">
+                </div>
+                <div class="back">Art Match</div>
+            </div>
         `;
 
-        card.addEventListener("click", flipCard);
+        card.onclick = () => flip(card);
         board.appendChild(card);
     });
 }
 
-function flipCard() {
-    if (lock) return;
-    if (this === firstCard) return;
+function flip(card) {
+    if (lock || card.classList.contains("flipped")) return;
 
-    this.classList.add("flip");
+    card.classList.add("flipped");
 
     if (!firstCard) {
-        firstCard = this;
-        return;
+        firstCard = card;
+    } else {
+        secondCard = card;
+        checkMatch();
     }
-
-    secondCard = this;
-    checkMatch();
 }
 
 function checkMatch() {
-    lock = true;
-
     if (firstCard.dataset.name === secondCard.dataset.name) {
-        matches++;
         disableCards();
-        if (matches === works.length) winGame();
     } else {
         unflipCards();
     }
 }
 
 function disableCards() {
+    lock = true;
+
     setTimeout(() => {
-        firstCard.style.opacity = "0";
-        secondCard.style.opacity = "0";
-        resetTurn();
-    }, 600);
+        firstCard.onclick = null;
+        secondCard.onclick = null;
+
+        firstCard = null;
+        secondCard = null;
+        lock = false;
+
+        remainingPairs--;
+        if (remainingPairs === 0) winGame();
+    }, 500);
 }
 
 function unflipCards() {
+    lock = true;
+
     setTimeout(() => {
-        firstCard.classList.remove("flip");
-        secondCard.classList.remove("flip");
-        resetTurn();
-    }, 800);
-}
+        firstCard.classList.remove("flipped");
+        secondCard.classList.remove("flipped");
 
-function resetTurn() {
-    [firstCard, secondCard, lock] = [null, null, false];
-}
-
-function startTimer() {
-    timer = setInterval(() => {
-        timeLeft--;
-        let m = String(Math.floor(timeLeft / 60)).padStart(2, "0");
-        let s = String(timeLeft % 60).padStart(2, "0");
-        document.getElementById("timer").textContent = `${m}:${s}`;
-
-        if (timeLeft <= 0) loseGame();
+        firstCard = null;
+        secondCard = null;
+        lock = false;
     }, 1000);
 }
 
+// --- TIMER ---
+function startTimer(seconds) {
+    const timerDisplay = document.getElementById("timer");
+
+    timerInterval = setInterval(() => {
+        const min = Math.floor(seconds / 60);
+        const sec = seconds % 60;
+
+        timerDisplay.textContent = `${min}:${sec.toString().padStart(2, '0')}`;
+
+        if (seconds <= 0) {
+            clearInterval(timerInterval);
+            loseGame();
+        }
+
+        seconds--;
+    }, 1000);
+}
+
+// --- FINES ---
 function winGame() {
-    clearInterval(timer);
-    show(win);
-    loadGallery();
+    clearInterval(timerInterval);
+    switchTo(winScreen);
 }
 
 function loseGame() {
-    clearInterval(timer);
-    show(lose);
+    switchTo(loseScreen);
 }
 
-function loadGallery() {
-    const container = document.querySelector(".gallery");
-    container.innerHTML = "";
+function showGallery() {
+    switchTo(galleryScreen);
+
+    const gallery = document.querySelector(".gallery");
+    gallery.innerHTML = "";
 
     works.forEach(w => {
-        container.innerHTML += `
+        gallery.innerHTML += `
             <div class="gallery-item">
                 <img src="${w.img}">
                 <h3>${w.name} – ${w.artist}</h3>
-                <p><b>Año:</b> ${w.year}</p>
-                <p>${w.description}</p>
+                <p><strong>Año:</strong> ${w.year}</p>
+                <p>${w.desc}</p>
             </div>
         `;
     });
