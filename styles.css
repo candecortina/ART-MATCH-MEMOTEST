@@ -1,98 +1,149 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Montserrat:wght@300;400;600&display=swap');
 
 body {
-  margin:0;
-  font-family:'Montserrat',sans-serif;
-  background-color:#f8f1e6;
-  background-image: url('img/fondo.jpg');
-  background-size: cover;
-  background-position: center;
-  color:#4b3a2f;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  min-height:100vh;
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  background: url("img/fondo.jpg") center/cover no-repeat fixed;
+  color: #4b3a2f;
+  text-align: center;
 }
 
-.screen { display:none; text-align:center; padding:20px; width:100%; }
-.screen.active { display:block; }
+.screen { display: none; padding: 20px; }
+.screen.active { display: block; }
 
-.title { font-family:'Playfair Display',serif; font-size:60px; color:#3b2d22; margin-bottom:0; }
-.subtitle { font-size:28px; margin-top:5px; opacity:0.7; }
+.title {
+  font-family: 'Playfair Display', serif;
+  font-size: 60px;
+  margin-bottom: 0;
+  color: #3b2d22;
+}
+
+.subtitle { font-size: 28px; margin-top: 5px; opacity: .7; }
 
 .btn {
-  padding:14px 28px; font-size:18px; background-color:#8d6f54; color:white;
-  border:none; border-radius:10px; cursor:pointer; margin-top:20px; transition:0.2s;
+  padding: 14px 28px;
+  font-size: 18px;
+  background-color: #8d6f54;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: 0.2s;
 }
 .btn:hover { background-color:#7b6047; }
 
+/* INSTRUCCIONES */
 .instructions-box {
-  background:#fff; padding:25px; border-radius:16px; width:80%; max-width:500px;
-  margin:50px auto; box-shadow:0 0 10px #00000020; font-size:18px;
-  display:flex; flex-direction:column; justify-content:center; align-items:center;
-  text-align:center;
+  background: #fff;
+  width: 80%;
+  margin: auto;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 0 10px #00000030;
+  font-size: 18px;
 }
 
-.timer { font-size:22px; font-weight:600; margin-bottom:10px; }
-.pairs-counter { font-size:18px; margin-bottom:15px; }
+/* CONTADOR */
+.timer { font-size: 24px; font-weight: 600; margin-bottom: 10px; }
+#pairs-count { font-size: 18px; margin-top: -10px; }
 
-/* GRID MEMOTEST */
+/* MEMOTEST */
 .grid {
-  display:grid;
-  grid-template-columns:repeat(4,160px);
-  grid-template-rows:repeat(3,160px);
-  grid-gap:15px;
-  justify-content:center;
-  margin:auto;
+  width: 90%;
+  max-width: 650px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 18px;
 }
 
-/* Fichas */
+/* FICHAS */
 .card {
-  width:160px; height:160px; perspective:1000px; cursor:pointer;
+  width: 100%;
+  padding-top: 100%;
+  position: relative;
+  cursor: pointer;
+  perspective: 1000px;
 }
 
 .card-inner {
-  position:relative; width:100%; height:100%;
-  transition: transform 0.5s; transform-style: preserve-3d;
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 100%;
+  transition: transform 0.5s;
+  transform-style: preserve-3d;
 }
 
-.card.flip .card-inner { transform:rotateY(180deg); }
+.card.flip .card-inner { transform: rotateY(180deg); }
 
 .card-face {
-  position:absolute; width:100%; height:100%;
-  backface-visibility:hidden;
-  display:flex; justify-content:center; align-items:center;
-  font-family:'Playfair Display', serif; font-size:18px;
-  border:6px solid #8d6f54; border-radius:4px; font-weight:600;
+  position: absolute;
+  width: 100%; height: 100%;
+  backface-visibility: hidden;
+  border-radius: 8px;
+  border: 5px solid #8d6f54;
+  display: flex; justify-content: center; align-items: center;
 }
 
-.card-back { background:none; color:#3b2d22; }
-.card-front { transform:rotateY(180deg); }
-.card-front img { width:100%; height:100%; object-fit:cover; border-radius:4px; }
-
-/* Carteles */
-.end-msg {
-  display:inline-block; padding:40px 60px;
-  font-family:'Playfair Display',serif; font-size:32px;
-  color:#3b2d22; text-align:center;
-  border:8px solid #8d6f54; border-radius:12px;
-  background-color:#fff8f0; box-shadow:0 0 15px #5a3d2e; margin-bottom:20px;
+.card-back {
+  background: transparent;
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #3b2d22;
 }
 
-/* Galería */
-.gallery-container { display:flex; align-items:center; justify-content:center; gap:10px; margin:20px 0; }
-.nav-btn { font-size:28px; background:none; border:none; cursor:pointer; }
+.card-front {
+  transform: rotateY(180deg);
+}
+.card-front img {
+  width: 100%; height: 100%; object-fit: cover; border-radius: 8px;
+}
 
-.gallery { display:flex; gap:15px; justify-content:center; flex-wrap:nowrap; overflow:hidden; width:100%; max-width:1000px; }
-.gallery-item { min-width:300px; background-color:#fff8f0; border:5px solid #8d6f54; border-radius:10px;
-  padding:10px; text-align:center; flex-shrink:0; cursor:pointer; }
-.gallery-item img { width:100%; height:auto; border-radius:6px; margin-bottom:10px; }
-.gallery-item h3,h4 { font-family:'Playfair Display', serif; margin:5px 0; }
-.gallery-item p { font-size:16px; }
+/* MENSAJES */
+.message-box {
+  background: #fff;
+  padding: 25px;
+  border-radius: 14px;
+  border: 4px solid #8d6f54;
+  width: 80%;
+  margin: auto;
+  box-shadow: 0 0 20px #00000030;
+}
 
-/* Modal */
-.modal { display:none; position:fixed; z-index:999; left:0; top:0; width:100%; height:100%;
-  background:rgba(0,0,0,0.8); justify-content:center; align-items:center; flex-direction:column; }
-.modal img { max-width:90%; max-height:70%; border-radius:8px; margin-bottom:10px; }
-#modal-desc { color:white; text-align:center; font-size:18px; }
-#modal-close { position:absolute; top:20px; right:30px; font-size:40px; color:white; cursor:pointer; }
+/* GALERÍA */
+.gallery-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  margin: auto;
+}
+
+.arrow {
+  background: none;
+  border: none;
+  font-size: 35px;
+  cursor: pointer;
+  color: #3b2d22;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  width: 70%;
+  gap: 15px;
+}
+
+.gallery img {
+  width: 100%; border-radius: 8px; cursor: pointer;
+}
+.gallery p {
+  font-size: 14px; margin-top: 5px;
+}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  .grid { grid-template-columns: repeat(3,1fr); }
+  .gallery { grid-template-columns: repeat(2,1fr); }
+}

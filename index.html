@@ -8,61 +8,63 @@
 </head>
 <body>
 
-<!-- Bienvenida -->
+<!-- PANTALLA DE INICIO -->
 <div id="welcome-screen" class="screen active">
-  <h1 class="title">ART MATCH</h1>
-  <h2 class="subtitle">Memotest</h2>
-  <button id="start-btn" class="btn">Comenzar</button>
+    <h1 class="title">ART MATCH</h1>
+    <h2 class="subtitle">Memotest</h2>
+    <button id="start-btn" class="btn">Comenzar</button>
 </div>
 
-<!-- Instrucciones -->
+<!-- INSTRUCCIONES -->
 <div id="instructions-screen" class="screen">
-  <div class="instructions-box">
-    <h2>Instrucciones</h2>
-    <p>- Da vuelta las fichas para encontrar pares iguales.</p>
-    <p>- Si coinciden, quedan descubiertas.</p>
-    <p>- Si no coinciden, se vuelven a dar vuelta.</p>
-    <p>- Encuentra todas las parejas para ver la galería de obras.</p>
-  </div>
-  <button id="play-btn" class="btn">Jugar</button>
+    <div class="instructions-box">
+        <h2>Instrucciones</h2>
+        <p>- Da vuelta las fichas para encontrar pares iguales.</p>
+        <p>- Si coinciden, quedan descubiertas.</p>
+        <p>- Si no coinciden, se dan vuelta de nuevo.</p>
+        <p>- Cuando encuentres todos los pares, accederás a la galería de obras.</p>
+    </div>
+    <button id="play-btn" class="btn">Jugar</button>
 </div>
 
-<!-- Juego -->
+<!-- MEMOTEST -->
 <div id="game-screen" class="screen">
-  <div class="timer" id="timer">Tiempo: 40s</div>
-  <div class="pairs-counter" id="pairs-counter">Pares encontrados: 0 / 6</div>
-  <div id="game-board" class="grid"></div>
+    <div class="timer" id="timer">Tiempo: 0:40</div>
+    <p id="pairs-count">Pares encontrados: 0/6</p>
+    <div id="game-board" class="grid"></div>
 </div>
 
-<!-- Victoria -->
+<!-- GANASTE -->
 <div id="win-screen" class="screen">
-  <div class="end-msg">¡Felicitaciones! 🎉</div>
-  <button id="gallery-btn" class="btn">Ver Galería</button>
-  <button id="replay-btn" class="btn">Volver a jugar</button>
+    <div class="message-box">
+        <h2 class="win-msg">¡Felicitaciones! 🎉</h2>
+        <p>Completaste el Art Match.</p>
+        <button id="gallery-btn" class="btn">Ver Galería</button>
+    </div>
 </div>
 
-<!-- Derrota -->
+<!-- PERDISTE -->
 <div id="lose-screen" class="screen">
-  <div class="end-msg">¡Se acabó el tiempo! ⏳</div>
-  <button id="retry-btn" class="btn">Intentar de nuevo</button>
+    <div class="message-box">
+        <h2 class="win-msg">¡Se acabó el tiempo! ⏳</h2>
+        <p>No lograste completar el memotest.</p>
+        <button id="retry-btn" class="btn">Intentar de nuevo</button>
+    </div>
 </div>
 
-<!-- Galería -->
+<!-- GALERÍA -->
 <div id="gallery-screen" class="screen">
-  <h2>Galería de Obras</h2>
-  <div class="gallery-container">
-    <button id="prev-btn" class="nav-btn">◀</button>
-    <div id="gallery" class="gallery"></div>
-    <button id="next-btn" class="nav-btn">▶</button>
-  </div>
-  <button id="replay-gallery-btn" class="btn">Jugar de nuevo</button>
-</div>
+    <h2>Galería de Obras</h2>
 
-<!-- Modal para ver obra grande -->
-<div id="modal" class="modal">
-  <span id="modal-close">&times;</span>
-  <img id="modal-img" src="">
-  <p id="modal-desc"></p>
+    <div class="gallery-container">
+        <button id="prev-btn" class="arrow">◀</button>
+
+        <div id="gallery" class="gallery"></div>
+
+        <button id="next-btn" class="arrow">▶</button>
+    </div>
+
+    <button id="restart-btn" class="btn">Volver a jugar</button>
 </div>
 
 <script src="script.js"></script>

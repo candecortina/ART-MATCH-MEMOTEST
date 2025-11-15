@@ -4,115 +4,172 @@ const gameScreen = document.getElementById("game-screen");
 const winScreen = document.getElementById("win-screen");
 const loseScreen = document.getElementById("lose-screen");
 const galleryScreen = document.getElementById("gallery-screen");
-const modal = document.getElementById("modal");
-const modalImg = document.getElementById("modal-img");
-const modalDesc = document.getElementById("modal-desc");
-const modalClose = document.getElementById("modal-close");
 
-document.getElementById("start-btn").onclick = ()=>{ welcomeScreen.classList.remove("active"); instructionsScreen.classList.add("active"); };
+document.getElementById("start-btn").onclick = () => {
+    welcomeScreen.classList.remove("active");
+    instructionsScreen.classList.add("active");
+};
+
 document.getElementById("play-btn").onclick = startGame;
 document.getElementById("gallery-btn").onclick = showGallery;
-document.getElementById("replay-btn").onclick = startGame;
-document.getElementById("retry-btn").onclick = ()=>{ loseScreen.classList.remove("active"); startGame(); };
-document.getElementById("replay-gallery-btn").onclick = startGame;
-modalClose.onclick = ()=>{ modal.style.display="none"; };
+document.getElementById("retry-btn").onclick = startGame;
+document.getElementById("restart-btn").onclick = startGame;
+
+// ------- MEMOTEST -------
 
 const images = [
-  "monalisa.jpg","monalisa.jpg",
-  "lanochestrellada.jpg","lanochestrellada.jpg",
-  "scream.jpg","scream.jpg",
-  "laperla.jpg","laperla.jpg",
-  "persistencia_memoria.jpg","persistencia_memoria.jpg",
-  "venus.jpg","venus.jpg"
+    "monalisa.jpg","monalisa.jpg",
+    "lanochestrellada.jpg","lanochestrellada.jpg",
+    "scream.jpg","scream.jpg",
+    "laperla.jpg","laperla.jpg",
+    "persistencia_memoria.jpg","persistencia_memoria.jpg",
+    "venus.jpg","venus.jpg"
 ];
 
-let firstCard=null, lockBoard=false, matchedPairs=0, pairsFound=0, timerInterval, timeLeft=40;
+let firstCard = null;
+let lockBoard = false;
+let matchedPairs = 0;
+let timeLeft = 40;
+let timerInterval;
 
 function startGame(){
-  instructionsScreen.classList.remove("active");
-  loseScreen.classList.remove("active");
-  winScreen.classList.remove("active");
-  gameScreen.classList.add("active");
+    instructionsScreen.classList.remove("active");
+    galleryScreen.classList.remove("active");
+    winScreen.classList.remove("active");
+    loseScreen.classList.remove("active");
 
-  matchedPairs=0; pairsFound=0; firstCard=null;
-  document.getElementById("pairs-counter").textContent = `Pares encontrados: 0 / 6`;
+    gameScreen.classList.add("active");
 
-  const board = document.getElementById("game-board");
-  board.innerHTML="";
-  const shuffled = [...images].sort(()=>Math.random()-0.5);
+    matchedPairs = 0;
+    firstCard = null;
+    timeLeft = 40;
+    document.getElementById("pairs-count").textContent = "Pares encontrados: 0/6";
 
-  shuffled.forEach(src=>{
-    const card=document.createElement("div");
-    card.classList.add("card");
-    card.dataset.src=src;
-    card.innerHTML=`
-      <div class="card-inner">
-        <div class="card-face card-back">ART MATCH</div>
-        <div class="card-face card-front"><img src="img/${src}"></div>
-      </div>`;
-    card.addEventListener("click", ()=>flipCard(card));
-    board.appendChild(card);
-  });
-
-  timeLeft=40;
-  document.getElementById("timer").textContent=`Tiempo: ${timeLeft}s`;
-  clearInterval(timerInterval);
-  timerInterval=setInterval(()=>{
-    timeLeft--;
-    document.getElementById("timer").textContent=`Tiempo: ${timeLeft}s`;
-    if(timeLeft<=0){ clearInterval(timerInterval); loseGame(); }
-  },1000);
+    startTimer();
+    loadBoard();
 }
 
-function flipCard(card){
-  if(lockBoard || card.classList.contains("flip") || card.classList.contains("matched")) return;
-  card.classList.add("flip");
+function startTimer(){
+    clearInterval(timerInterval);
+    const timer = document.getElementById("timer");
 
-  if(!firstCard){ firstCard=card; return; }
-
-  if(firstCard.dataset.src===card.dataset.src){
-    firstCard.classList.add("matched"); card.classList.add("matched");
-    firstCard=null; matchedPairs++; pairsFound++;
-    document.getElementById("pairs-counter").textContent = `Pares encontrados: ${pairsFound} / 6`;
-    if(matchedPairs===images.length/2){ clearInterval(timerInterval); setTimeout(()=>{ gameScreen.classList.remove("active"); winScreen.classList.add("active"); },500);}
-  } else {
-    lockBoard=true;
-    setTimeout(()=>{ firstCard.classList.remove("flip"); card.classList.remove("flip"); firstCard=null; lockBoard=false; },900);
-  }
+    timerInterval = setInterval(()=>{
+        timer.textContent = `Tiempo: 0:${timeLeft.toString().padStart(2,"0")}`;
+        if(timeLeft <= 0){
+            clearInterval(timerInterval);
+            loseGame();
+        }
+        timeLeft--;
+    },1000);
 }
 
-function loseGame(){ gameScreen.classList.remove("active"); loseScreen.classList.add("active"); }
+function loadBoard(){
+    const board = document.getElementById("game-board");
+    board.innerHTML = "";
 
-let galleryIndex=0;
-const obras=[
-  {img:"lamonalisa.jpg", nombre:"La Mona Lisa", artista:"Leonardo da Vinci", año:1503, desc:"Pintura icónica del Renacimiento que representa a Lisa Gherardini."},
-  {img:"noche.jpg", nombre:"La Noche Estrellada", artista:"Vincent van Gogh", año:1889, desc:"Obra realizada desde la ventana del asilo de Saint-Rémy."},
-  {img:"grito.jpg", nombre:"El Grito", artista:"Edvard Munch", año:1893, desc:"Expresa la angustia existencial del ser humano."},
-  {img:"renacimiento_venus.jpg", nombre:"El nacimiento de Venus", artista:"Sandro Botticelli", año:1485, desc:"Pintura renacentista que representa a Venus emergiendo del mar."},
-  {img:"perla.jpg", nombre:"La joven de la perla", artista:"Johannes Vermeer", año:1665, desc:"Conocida como la 'Mona Lisa holandesa'."},
-  {img:"relojes.jpg", nombre:"Persistencia de la memoria", artista:"Salvador Dalí", año:1931, desc:"Representa la relatividad del tiempo con relojes blandos."}
-];
+    const shuffled = [...images].sort(()=>Math.random()-0.5);
+
+    shuffled.forEach(src=>{
+        const card = document.createElement("div");
+        card.classList.add("card");
+        card.innerHTML = `
+            <div class="card-inner">
+                <div class="card-face card-back">ART MATCH</div>
+                <div class="card-face card-front">
+                    <img src="img/${src}">
+                </div>
+            </div>
+        `;
+        card.addEventListener("click", ()=>flipCard(card,src));
+        board.appendChild(card);
+    });
+}
+
+function flipCard(card,src){
+    if(lockBoard || card.classList.contains("flip") || card.classList.contains("matched")) return;
+
+    card.classList.add("flip");
+
+    if(!firstCard){
+        firstCard = { card, src };
+        return;
+    }
+
+    if(firstCard.src === src){
+        firstCard.card.classList.add("matched");
+        card.classList.add("matched");
+        matchedPairs++;
+        document.getElementById("pairs-count").textContent = `Pares encontrados: ${matchedPairs}/6`;
+
+        firstCard = null;
+
+        if(matchedPairs === 6){
+            clearInterval(timerInterval);
+            setTimeout(()=>{
+                gameScreen.classList.remove("active");
+                winScreen.classList.add("active");
+            },500);
+        }
+    } else {
+        lockBoard = true;
+        setTimeout(()=>{
+            firstCard.card.classList.remove("flip");
+            card.classList.remove("flip");
+            firstCard = null;
+            lockBoard = false;
+        },900);
+    }
+}
+
+function loseGame(){
+    gameScreen.classList.remove("active");
+    loseScreen.classList.add("active");
+}
+
+// ------- GALERÍA -------
 
 function showGallery(){
-  winScreen.classList.remove("active"); loseScreen.classList.remove("active");
-  galleryScreen.classList.add("active"); galleryIndex=0;
-  renderGallery();
+    winScreen.classList.remove("active");
+    galleryScreen.classList.add("active");
+
+    loadGallery();
 }
 
-function renderGallery(){
-  const gal=document.getElementById("gallery"); gal.innerHTML="";
-  const items=obras.slice(galleryIndex,galleryIndex+3);
-  items.forEach(o=>{
-    const div=document.createElement("div"); div.className="gallery-item";
-    div.innerHTML=`<img src="img/${o.img}"><h3>${o.nombre}</h3><h4>${o.artista} (${o.año})</h4><p>${o.desc}</p>`;
-    div.onclick=()=>{ modal.style.display="flex"; modalImg.src=`img/${o.img}`; modalDesc.textContent=o.desc; };
-    gal.appendChild(div);
-  });
-}
+let galleryIndex = 0;
 
-document.getElementById("prev-btn").onclick=()=>{
-  if(galleryIndex-3>=0){ galleryIndex-=3; renderGallery(); }
-};
-document.getElementById("next-btn").onclick=()=>{
-  if(galleryIndex+3<obras.length){ galleryIndex+=3; renderGallery(); }
-};
+const obras = [
+    {img:"lamonalisa.jpg",titulo:"La Mona Lisa"},
+    {img:"noche.jpg",titulo:"Noche Estrellada"},
+    {img:"grito.jpg",titulo:"El Grito"},
+    {img:"renacimiento_venus.jpg",titulo:"Renacimiento de Venus"},
+    {img:"perla.jpg",titulo:"La Joven de la Perla"},
+    {img:"relojes.jpg",titulo:"La Persistencia de la Memoria"},
+];
+
+function loadGallery(){
+    const gal = document.getElementById("gallery");
+    gal.innerHTML = "";
+
+    const slice = obras.slice(galleryIndex, galleryIndex+3);
+
+    slice.forEach(o=>{
+        gal.innerHTML += `
+            <div>
+                <img src="img/${o.img}">
+                <p>${o.titulo}</p>
+            </div>`;
+    });
+
+    document.getElementById("prev-btn").onclick = ()=>{
+        if(galleryIndex > 0){
+            galleryIndex -= 3;
+            loadGallery();
+        }
+    };
+    document.getElementById("next-btn").onclick = ()=>{
+        if(galleryIndex < obras.length - 3){
+            galleryIndex += 3;
+            loadGallery();
+        }
+    };
+}
