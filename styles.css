@@ -227,28 +227,28 @@ body {
 }
 /* CUADRO para Felicitaciones / Derrota */
 .result-box {
-  background: #ffffffdd;
-  border: 3px solid #8d6f54;
-  border-radius: 16px;
-  padding: 25px;
-  width: 80%;
-  margin: 20px auto;
-  box-shadow: 0 0 12px #00000050;
+    background: #ffffffdd;
+    border: 3px solid #8d6f54;
+    border-radius: 16px;
+    padding: 25px;
+    width: 80%;
+    margin: 20px auto;
+    box-shadow: 0 0 12px #00000050;
 }
 
 .result-box h2 {
-  margin-top: 0;
-  font-family: 'Playfair Display', serif;
+    margin-top: 0;
+    font-family: 'Playfair Display', serif;
 }
 
 .result-box p {
-  font-size: 18px;
-  margin-bottom: 15px;
+    font-size: 18px;
+    margin-bottom: 15px;
 }
 
 /* Botón volver a jugar en Galería */
 #volver-jugar-btn {
-  margin-top: 25px;
+    margin-top: 25px;
 }
 /* Pares encontrados */
 .pairs {
