@@ -21,57 +21,109 @@ const images = [
   "venus.jpg","venus.jpg"
 ];
 
+// VARIABLES DE MEMOTEST
 let firstCard = null;
 let lockBoard = false;
 let matchedPairs = 0;
-let timeLeft = 40;  // <--- 40 segundos
+let timeLeft = 50; // <-- 50 segundos
 let timerInterval;
 
+// Función de iniciar el juego
 function startGame(){
-  instructionsScreen.classList.remove("active");
-  gameScreen.classList.add("active");
+    instructionsScreen.classList.remove("active");
+    gameScreen.classList.add("active");
 
-  matchedPairs = 0;
-  firstCard = null;
-  timeLeft = 40; // <--- 40 segundos reales
-  startTimer();
+    matchedPairs = 0;
+    firstCard = null;
+    timeLeft = 50; // 50 segundos
+    updatePairsDisplay();
+    startTimer();
 
-  const board = document.getElementById("game-board");
-  board.innerHTML = "";
+    const board = document.getElementById("game-board");
+    board.innerHTML = "";
 
-  const shuffled = images.sort(() => Math.random() - 0.5);
+    const shuffled = images.sort(() => Math.random() - 0.5);
 
-  shuffled.forEach(src => {
-    const card = document.createElement("div");
-    card.classList.add("card");
+    shuffled.forEach(src => {
+        const card = document.createElement("div");
+        card.classList.add("card");
 
-    card.innerHTML = `
-      <div class="card-inner">
-        <div class="card-face card-back">ART MATCH</div>
-        <div class="card-face card-front"><img src="img/${src}"></div>
-      </div>
-    `;
+        card.innerHTML = `
+            <div class="card-inner">
+                <div class="card-face card-back">ART MATCH</div>
+                <div class="card-face card-front"><img src="img/${src}"></div>
+            </div>
+        `;
 
-    card.addEventListener("click", ()=>flipCard(card, src));
-    board.appendChild(card);
-  });
+        card.addEventListener("click", ()=>flipCard(card, src));
+        board.appendChild(card);
+    });
 }
 
+// TIMER
 function startTimer(){
-  const timer = document.getElementById("timer");
-  clearInterval(timerInterval);
+    const timer = document.getElementById("timer");
+    clearInterval(timerInterval);
 
-  timerInterval = setInterval(()=>{
+    timerInterval = setInterval(()=>{
+        timer.textContent = `Tiempo: ${timeLeft}s`;
 
-    timer.textContent = `Tiempo: ${timeLeft}s`;  // <--- Muestra solo segundos
+        // Últimos segundos en rojo
+        if(timeLeft <= 10){
+            timer.style.color = "red";
+        } else {
+            timer.style.color = "#4b3a2f";
+        }
 
-    if(timeLeft <= 0){
-      clearInterval(timerInterval);
-      loseGame();
+        if(timeLeft <= 0){
+            clearInterval(timerInterval);
+            loseGame();
+        }
+
+        timeLeft--;
+    },1000);
+}
+
+// FUNCION PARA ACTUALIZAR PARES EN PANTALLA
+function updatePairsDisplay(){
+    const pairsEl = document.getElementById("pairs");
+    pairsEl.textContent = `Pares encontrados: ${matchedPairs}/${images.length/2}`;
+}
+
+// FUNCION DE VOLTEAR CARTA
+function flipCard(card, src){
+    if(lockBoard || card.classList.contains("flip") || card.classList.contains("matched")) return;
+
+    card.classList.add("flip");
+
+    if(!firstCard){
+        firstCard = {card, src};
+        return;
     }
 
-    timeLeft--;
-  },1000);
+    if(firstCard.src === src){
+        firstCard.card.classList.add("matched");
+        card.classList.add("matched");
+        firstCard = null;
+        matchedPairs++;
+        updatePairsDisplay(); // <-- Actualiza contador
+
+        if(matchedPairs === images.length/2){
+            clearInterval(timerInterval);
+            setTimeout(()=>{
+                gameScreen.classList.remove("active");
+                showWinScreen();
+            },500);
+        }
+    } else {
+        lockBoard = true;
+        setTimeout(()=>{
+            firstCard.card.classList.remove("flip");
+            card.classList.remove("flip");
+            firstCard = null;
+            lockBoard = false;
+        },900);
+    }
 }
 
 function flipCard(card, src){

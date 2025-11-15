@@ -250,3 +250,10 @@ body {
 #volver-jugar-btn {
   margin-top: 25px;
 }
+/* Pares encontrados */
+.pairs {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 15px;
+  color: #4b3a2f;
+}
