@@ -135,30 +135,44 @@ function flipCard(card, src){
     return;
   }
 
-  if(firstCard.src === src){
-    firstCard.card.classList.add("matched");
-    card.classList.add("matched");
-    firstCard = null;
-    matchedPairs++;
-
-    if(matchedPairs === images.length/2){
-      clearInterval(timerInterval);
-      setTimeout(()=>{
-        gameScreen.classList.remove("active");
-        showWinScreen();
-      },500);
+  function flipCard(card, src){
+    if(lockBoard || card.classList.contains("flip") || card.classList.contains("matched")) return;
+  
+    card.classList.add("flip");
+  
+    if(!firstCard){
+      firstCard = {card, src};
+      return;
     }
-
-  } else {
-    lockBoard = true;
-    setTimeout(()=>{
-      firstCard.card.classList.remove("flip");
-      card.classList.remove("flip");
+  
+    if(firstCard.src === src){
+      firstCard.card.classList.add("matched");
+      card.classList.add("matched");
       firstCard = null;
-      lockBoard = false;
-    },900);
+      matchedPairs++;
+  
+      updatePairsDisplay(); // <-- ACÁ se actualiza
+  
+      if(matchedPairs === images.length/2){
+        clearInterval(timerInterval);
+        setTimeout(()=>{
+          gameScreen.classList.remove("active");
+          showWinScreen();
+        },500);
+      }
+  
+    } else {
+      lockBoard = true;
+      setTimeout(()=>{
+        firstCard.card.classList.remove("flip");
+        card.classList.remove("flip");
+        firstCard = null;
+        lockBoard = false;
+      },900);
+    }
   }
-}
+  
+  }
 
 function loseGame(){
   gameScreen.classList.remove("active");
